@@ -1,0 +1,382 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>搭建免费博客HEXO+GitHub | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='John Doe'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">Hexo</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="搭建免费博客HEXO+GitHub">
+            
+	            搭建免费博客HEXO+GitHub
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/其他">
+            其他
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/hexo" title='hexo'>
+                        hexo
+                    </a>
+                
+                    <a href="/tags/搭建博客" title='搭建博客'>
+                        搭建博客
+                    </a>
+                
+                    <a href="/tags/免费" title='免费'>
+                        免费
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/08/21</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="原料"><a href="#原料" class="headerlink" title="原料"></a>原料</h2><ol>
+<li>Node.js    ——简单的说就是运行在服务端的 JavaScript, 所以这个构建后端服务的</li>
+<li>Nexo     —— 一款基于Node.js的静态博客框架，这个是台湾人创建的</li>
+<li>GitHub Pages     —— GitHub全球最大的Gay站，我们用的是GitHub中的仓库，因为它是免费的..</li>
+</ol>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ul>
+<li><p>创建Github仓库</p>
+</li>
+<li><p>安装Git</p>
+</li>
+</ul>
+<ul>
+<li><p>创建SSH秘钥</p>
+<ul>
+<li><p>配置git的用户名和邮箱</p>
+<ul>
+<li>右键打开gitBash,<br><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/v2-8b1cbe253d6e0301bd9a68c6f98a9f52_hd.jpg" alt="右键打开gitBash"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;你的GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;你的GitHub注册邮箱&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>看本地有秘钥没</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/. ssh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>本地创建秘钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;your_email@example.com&quot;</span><br></pre></td></tr></table></figure>
+<p>中间会提示你是否需要设置密码，可输可不输</p>
+</li>
+<li><p>上传到GitHub<br>复制公钥到系统粘贴板中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/SSH-github-setting-SSH.png" alt="GITHUB的ssh key 目录"><br><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/SSH-github-SSH-OK.png" alt="github哪里可以放秘钥"><br>+测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果提示你 yes /no? 那就是yes</p>
+</li>
+</ul>
+</li>
+<li><p>安装Node.js</p>
+<ul>
+<li>下载地址:<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">官网</a></li>
+<li><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/image-nodeJs-dl.png" alt="git下载官网"></li>
+</ul>
+</li>
+<li><p>安装Hexo</p>
+<ul>
+<li><p>安装nexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装部署工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line">可以一句话</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用命令<br>现在来介绍常用的Hexo 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo -g #安装Hexo</span><br><span class="line">npm update hexo -g #升级 </span><br><span class="line">hexo init #初始化博客</span><br><span class="line"></span><br><span class="line">命令简写</span><br><span class="line">hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章</span><br><span class="line">hexo g == hexo generate #生成</span><br><span class="line">hexo s == hexo server #启动服务预览</span><br><span class="line">hexo d == hexo deploy #部署</span><br><span class="line"></span><br><span class="line">hexo server #Hexo会监视文件变动并自动更新，无须重启服务器</span><br><span class="line">hexo server -s #静态模式</span><br><span class="line">hexo server -p 5000 #更改端口</span><br><span class="line">hexo server -i 192.168.1.1 #自定义 IP</span><br><span class="line">hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令</span><br><span class="line"></span><br><span class="line">刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>浏览器访问地址<br><a href="localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a></p>
+</li>
+</ul>
+</li>
+<li><p>上传到Github</p>
+<ul>
+<li><p>配置根目录下 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: git@github.com:username/username.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传github</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean </span><br><span class="line">hexo g </span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>最后一条命令是部署到github<br>访问 <a href="http://xxxx.github.io" target="_blank" rel="noopener">http://xxxx.github.io</a> </p>
+</li>
+</ul>
+</li>
+<li>绑定域名</li>
+<li><p>更换主题</p>
+<ul>
+<li>Themes <a href="https://hexo.io/themes/" target="_blank" rel="noopener">官网</a></li>
+<li>如果你不喜欢Hexo默认的主题，可以更换不同的主题，主题传送门：Themes 我自己使用的是Next主题，可以在blog目录中的themes文件夹中查看你自己主题是什么。现在把默认主题更改成Next主题，在blog目录中（就是命令行的位置处于blog目录）打开命令行输入：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>发布文章</p>
+<ul>
+<li><p>命令行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n &quot;博客名字&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接做好markdown 文件，放在nexo的source_posts目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source\_posts</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>OSS服务器</p>
+</li>
+</ul>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2018/08/21/test_07_学习曲线_交叉验证/" class="next-post btn btn-default" title=''>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs"></span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原料"><span class="toc-text">原料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>
