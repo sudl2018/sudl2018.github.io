@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>sklearn的可视化自己的数据集03 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='John Doe'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">Hexo</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="sklearn的可视化自己的数据集03">
+            
+	            sklearn的可视化自己的数据集03
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/sklearn">
+            sklearn
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/机器学习" title='机器学习'>
+                        机器学习
+                    </a>
+                
+                    <a href="/tags/sklearn" title='sklearn'>
+                        sklearn
+                    </a>
+                
+                    <a href="/tags/数据集" title='数据集'>
+                        数据集
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/03/01</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="引入包"><a href="#引入包" class="headerlink" title="引入包"></a>引入包</h3><ol>
+<li>sklearn的数据集包，这次自己创建数据集</li>
+<li>sklearn线性回归包</li>
+<li>matplotlib画图包</li>
+<li>3D 画图包</li>
+</ol>
+<h3 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h3><p>我们自己通过<code>make_regression</code> 构造数据集</p>
+<p>构造数据集，样本个数100个，每个特征3维，标签维度1，噪音1度</p>
+<p><a href="http://sklearn.apachecn.org/cn/0.19.0/datasets/index.html" target="_blank" rel="noopener">sklearn 数据集</a></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X,Y = datasets.make_regression(n_samples=<span class="number">100</span>,n_features=<span class="number">2</span>,n_targets=<span class="number">1</span>,noise=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line"><span class="comment"># 创建一个三维的绘图工程</span></span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>, projection=<span class="string">'3d'</span>)</span><br><span class="line"><span class="comment"># 用散点图scatter 把3维数据放进去</span></span><br><span class="line">ax.scatter(X[:,<span class="number">0</span>],X[:,<span class="number">1</span>],X[:,<span class="number">2</span>],c=Y)</span><br><span class="line"></span><br><span class="line">ax.set_xlabel(<span class="string">'X Label'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'Y Label'</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">'Z Label'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/untitled.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>Text(0.0937963,0.0125663,&apos;Z Label&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果数据超过3维，如何可视化呢</span></span><br><span class="line"><span class="comment"># 通过PCA 降维 或者 LDA 就可以了</span></span><br><span class="line"><span class="comment"># LDA 的图形模型是一个三层贝叶斯模型</span></span><br><span class="line"><span class="comment"># 以鸢尾花数据集为例，特征是4维的</span></span><br><span class="line"><span class="comment"># 引入PCA 包 以及 LDA(隐 Dirichlet 分配)</span></span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA</span><br><span class="line"><span class="keyword">from</span> sklearn.discriminant_analysis <span class="keyword">import</span> LinearDiscriminantAnalysis</span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line"></span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line">target_names = iris.target_names</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_names</span><br></pre></td></tr></table></figure>
+<pre><code>array([&apos;setosa&apos;, &apos;versicolor&apos;, &apos;virginica&apos;], dtype=&apos;&lt;U10&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PCA将数据降低为2维</span></span><br><span class="line">pca = PCA(n_components=<span class="number">2</span>)</span><br><span class="line">X_r = pca.fit(X).transform(X)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># LDA 将数据降低为2维</span></span><br><span class="line">lda = LinearDiscriminantAnalysis(n_components=<span class="number">2</span>)</span><br><span class="line">X_r2 = lda.fit(X, y).transform(X)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'explained variance ratio (first two components): %s'</span></span><br><span class="line">      % str(pca.explained_variance_ratio_))</span><br></pre></td></tr></table></figure>
+<pre><code>explained variance ratio (first two components): [0.92461621 0.05301557]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">colors = [<span class="string">'y'</span>, <span class="string">'r'</span>, <span class="string">'b'</span>]</span><br><span class="line">lw = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> color, i, target_name <span class="keyword">in</span> zip(colors, [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], target_names):</span><br><span class="line">    plt.scatter(X_r[y == i, <span class="number">0</span>], X_r[y == i, <span class="number">1</span>], color=color, alpha=<span class="number">.8</span>, lw=lw,</span><br><span class="line">                label=target_name)</span><br><span class="line">plt.legend(loc=<span class="string">'best'</span>)</span><br><span class="line">plt.title(<span class="string">'PCA of IRIS dataset'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Text(0.5,1,&apos;PCA of IRIS dataset&apos;)
+</code></pre><p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/output_8_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">plt.figure()</span><br><span class="line"><span class="keyword">for</span> color, i, target_name <span class="keyword">in</span> zip(colors, [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], target_names):</span><br><span class="line">    plt.scatter(X_r2[y == i, <span class="number">0</span>], X_r2[y == i, <span class="number">1</span>], alpha=<span class="number">.8</span>, color=color,</span><br><span class="line">                label=target_name)</span><br><span class="line">plt.legend(loc=<span class="string">'best'</span>)</span><br><span class="line">plt.title(<span class="string">'LDA of IRIS dataset'</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/output_9_0.png" alt="png"></p>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/08/21/搭建免费博客HEXO+GitHub(1)/" class="pre-post btn btn-default" title='搭建免费博客HEXO+GitHub'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">搭建免费博客HEXO+GitHub</span>
+        </a>
+    
+    
+        <a href="/2018/02/05/test_01_花瓣_通用模型/" class="next-post btn btn-default" title='sklearn的鸢尾花瓣数据集02'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">sklearn的鸢尾花瓣数据集02</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引入包"><span class="toc-text">引入包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要点"><span class="toc-text">要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>
