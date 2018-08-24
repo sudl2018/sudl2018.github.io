@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>sklearn的学习曲线_过拟合欠拟合大杀器07 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='John Doe'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">Hexo</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="sklearn的学习曲线_过拟合欠拟合大杀器07">
+            
+	            sklearn的学习曲线_过拟合欠拟合大杀器07
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/分类">
+            分类
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/机器学习" title='机器学习'>
+                        机器学习
+                    </a>
+                
+                    <a href="/tags/sklearn" title='sklearn'>
+                        sklearn
+                    </a>
+                
+                    <a href="/tags/学习曲线" title='学习曲线'>
+                        学习曲线
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/03/10</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h2><ol>
+<li><p>正常的训练过程会出现过拟合以及欠拟合等情况，所以要识别这些情况，以下图为例：</p>
+<blockquote>
+<p>左图欠拟合，中间正好，右图过拟合</p>
+<p><img src="http://sklearn.apachecn.org/cn/0.19.0/_images/sphx_glr_plot_underfitting_overfitting_0011.png" alt="../_images/sphx_glr_plot_underfitting_overfitting_0011.png"></p>
+</blockquote>
+</li>
+<li><p>一句话说明学习曲线<a href="http://sklearn.apachecn.org/cn/0.19.0/modules/generated/sklearn.learning_curve.learning_curve.html#sklearn.learning_curve" target="_blank" rel="noopener">learning_curve</a>——通过增加训练数据，来观察模型的获益效果</p>
+</li>
+<li><p>一般学习曲线长什么样?</p>
+<blockquote>
+<p>朴素贝叶斯大致收敛到一个较低的分数</p>
+<p><img src="http://sklearn.apachecn.org/cn/0.19.0/_images/sphx_glr_plot_learning_curve_0011.png" alt="../_images/sphx_glr_plot_learning_curve_0011.png"></p>
+</blockquote>
+<blockquote>
+<p>支持向量机（SVM）是样本越多越好<img src="http://sklearn.apachecn.org/cn/0.19.0/_images/sphx_glr_plot_learning_curve_0021.png" alt="../_images/sphx_glr_plot_learning_curve_0021.png"></p>
+</blockquote>
+</li>
+<li><p>我们使用手写数字数据集</p>
+</li>
+<li><p>分别用<a href="http://sklearn.apachecn.org/cn/0.19.0/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB" target="_blank" rel="noopener">朴素贝叶斯</a>和<a href="http://sklearn.apachecn.org/cn/0.19.0/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" target="_blank" rel="noopener">SVM</a> 来训练模型</p>
+</li>
+<li><p>参考文档 <a href="http://sklearn.apachecn.org/cn/0.19.0/modules/learning_curve.html" target="_blank" rel="noopener">验证曲线: 绘制分数以评估模型</a></p>
+</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> learning_curve <span class="comment">#学习曲线模块</span></span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_digits <span class="comment">#digits数据集</span></span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC <span class="comment">#Support Vector Classifier</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt <span class="comment">#可视化模块</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> ShuffleSplit <span class="comment"># 专业的数据集分割包</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手写数字，0-9，共1797样本，每个样本由64个特征组合（8*8），每个特征值用0-16表示</span></span><br><span class="line">digits = load_digits()</span><br><span class="line">X = digits.data</span><br><span class="line">y = digits.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 迭代次数100次，交叉验证集分成100个，测试集比例0.2</span></span><br><span class="line">cv = ShuffleSplit(n_splits=<span class="number">100</span>, test_size=<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#平均每一轮所得到的平均方差(共5轮，分别为样本10%、25%、50%、75%、100%),采用均方差度量损失，</span></span><br><span class="line">train_sizes, train_scores, test_scores= learning_curve(</span><br><span class="line">    <span class="comment"># SVM 中的参数，一个C 大间距，一个gammam, gamma 不是高斯半径 是 1/(2*sigma^2),都是越大越容易过拟合</span></span><br><span class="line">    SVC(gamma=<span class="number">0.0001</span>), X, y, cv=cv, train_sizes=np.linspace(<span class="number">.1</span>, <span class="number">1.0</span>, <span class="number">5</span>),n_jobs=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># axis=1 对行进行操作，由于上面的cv=分成了20份，所以 train_scores 是一个20个元素的数组</span></span><br><span class="line">train_scores_mean = np.mean(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">test_scores_mean =  np.mean(test_scores, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train_sizes 横坐标，train_loss_mean 纵坐标，形状‘o-’,红色</span></span><br><span class="line">plt.plot(train_sizes, train_scores_mean, <span class="string">'o-'</span>, color=<span class="string">"r"</span>,</span><br><span class="line">         label=<span class="string">"Training"</span>)</span><br><span class="line">plt.plot(train_sizes, test_scores_mean, <span class="string">'o-'</span>, color=<span class="string">"g"</span>,</span><br><span class="line">        label=<span class="string">"Cross-validation"</span>)</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">"Training examples"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"Loss"</span>)</span><br><span class="line"><span class="comment"># 将图标签——图例放到最佳的位置</span></span><br><span class="line">plt.legend(loc=<span class="string">"best"</span>)</span><br><span class="line">title = <span class="string">"Learning Curves (SVM, RBF kernel, $\gamma=0.001$)"</span></span><br><span class="line">plt.title(title)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Text(0.5,1,&apos;Learning Curves (SVM, RBF kernel, $\\gamma=0.001$)&apos;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1535108170104output_4_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 接下来用朴素贝叶斯分类器</span></span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"><span class="comment"># 迭代次数100次，交叉验证集分成100个，测试集比例0.2</span></span><br><span class="line">cv = ShuffleSplit(n_splits=<span class="number">100</span>, test_size=<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#平均每一轮所得到的平均方差(共5轮，分别为样本10%、25%、50%、75%、100%),采用均方差度量损失，</span></span><br><span class="line">train_sizes, train_scores, test_scores= learning_curve(</span><br><span class="line">    <span class="comment"># SVM 中的参数，一个C 大间距，一个gammam, gamma 不是高斯半径 是 1/(2*sigma^2),都是越大越容易过拟合</span></span><br><span class="line">    GaussianNB(), X, y, cv=cv, train_sizes=np.linspace(<span class="number">.1</span>, <span class="number">1.0</span>, <span class="number">5</span>),n_jobs=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># axis=1 对行进行操作，由于上面的cv=分成了20份，所以 train_scores 是一个20个元素的数组</span></span><br><span class="line">train_scores_mean = np.mean(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">test_scores_mean =  np.mean(test_scores, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train_sizes 横坐标，train_loss_mean 纵坐标，形状‘o-’,红色</span></span><br><span class="line">plt.plot(train_sizes, train_scores_mean, <span class="string">'o-'</span>, color=<span class="string">"r"</span>,</span><br><span class="line">         label=<span class="string">"Training"</span>)</span><br><span class="line">plt.plot(train_sizes, test_scores_mean, <span class="string">'o-'</span>, color=<span class="string">"g"</span>,</span><br><span class="line">        label=<span class="string">"Cross-validation"</span>)</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">"Training examples"</span>)</span><br><span class="line">plt.ylabel(<span class="string">"Loss"</span>)</span><br><span class="line"><span class="comment"># 将图标签——图例放到最佳的位置</span></span><br><span class="line">plt.legend(loc=<span class="string">"best"</span>)</span><br><span class="line">title = <span class="string">"Learning Curves (Naive Bayes)"</span></span><br><span class="line">plt.title(title)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Text(0.5,1,&apos;Learning Curves (Naive Bayes)&apos;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1535108171689output_7_1.png" alt="png"></p>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2018/03/09/test-06-sklearn_cross_validation_的交叉验证06/" class="next-post btn btn-default" title='sklearn的cross_validation交叉验证06'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">sklearn的cross_validation交叉验证06</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#要点"><span class="toc-text">要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>
