@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="the blog of sudoli">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>深度学习的优化函数 | the blog of sudoli</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="the blog of sudoli" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">the blog of sudoli</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="深度学习的优化函数">
+            
+	            深度学习的优化函数
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/深度学习，机器学习">
+            深度学习，机器学习
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/深度学习" title='深度学习'>
+                        深度学习
+                    </a>
+                
+                    <a href="/tags/优化函数" title='优化函数'>
+                        优化函数
+                    </a>
+                
+                    <a href="/tags/SGD，GD" title='SGD，GD'>
+                        SGD，GD
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/04/08</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="深度学习的优化函数"><a href="#深度学习的优化函数" class="headerlink" title="深度学习的优化函数"></a>深度学习的优化函数</h2><ol>
+<li><p>深度学习产生的一个重要原因就是数据计算的庞大规模</p>
+</li>
+<li><p>梯度下降GD是一种很好的优化损失函数的策略，运行效果如下图蓝线所示</p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1535530041072clipboard.png" alt="img"></p>
+</li>
+<li><p>如此庞大的数据集如果运行梯度下降来最优化损失函数，将会非常的耗时</p>
+<ol>
+<li>所以我们这里将会使用估计的方法，实话说这是个相当糟糕的估计，很差很差</li>
+<li>我们<strong>随机</strong>从数据集中抽取<strong>很小的一部分数据[1,1000]</strong>的平均损失; 这里强调下随机，这个我认为是这个方法有效的核心——随机梯度下降（SGD）上图的紫色线</li>
+<li>SGD的每次都不大准确，但是它很快所以要执行更多次数来弥补它的不精确性</li>
+<li>针对他的精确性提高有动量梯度下降法以及ADAM 算法</li>
+</ol>
+</li>
+<li><p>动量梯度下降</p>
+<ol>
+<li><p>$$<br>V_dw=0.9<em>V_dw+0.1</em>dW\<br>V_db=0.9<em>V_db+0.1</em>db<br>$$</p>
+<p>其实就是把前面梯度的移动平均值计算了出来，用平均值代替前一批数据的梯度</p>
+</li>
+<li><p>这个动量梯度下降非常有用，也能帮助模型收敛</p>
+</li>
+</ol>
+</li>
+<li><p>学习速率衰减，越接近目标损失时，越是要用较小的学习速率</p>
+</li>
+</ol>
+<p>   第一种 设置衰减率，decayrate称为衰减率，epochnum为代数，a0为初始学习率）<br>   $$<br>   \alpha=\frac{1}{1+decayrate<em>epochnum}<br>   $$<br>   第二种是设置指数<br>   $$<br>   \alpha=0.95^{epochnum}</em>\alpha0<br>   $$<br>   还有手动减少，离散衰减等</p>
+<ol start="6">
+<li><p>AdaGrad——首选优化算法</p>
+<ol>
+<li>它是SGD的优化版本</li>
+<li>使用了动量防止过拟合</li>
+<li>使用了学习速率衰减（自动衰减）</li>
+<li>准确率比使用动量的SGD低一点</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/04/10/22深度学习的学习速率曲线/" class="pre-post btn btn-default" title='深度学习的学习速率曲线'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">深度学习的学习速率曲线</span>
+        </a>
+    
+    
+        <a href="/2018/04/02/20 型性能评估/" class="next-post btn btn-default" title='模型的性能评估'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">模型的性能评估</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深度学习的优化函数"><span class="toc-text">深度学习的优化函数</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

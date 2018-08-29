@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="the blog of sudoli">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>模型的性能评估 | the blog of sudoli</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="the blog of sudoli" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">the blog of sudoli</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="模型的性能评估">
+            
+	            模型的性能评估
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/机器学习">
+            机器学习
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/深度学习" title='深度学习'>
+                        深度学习
+                    </a>
+                
+                    <a href="/tags/Kaggle" title='Kaggle'>
+                        Kaggle
+                    </a>
+                
+                    <a href="/tags/模型评估" title='模型评估'>
+                        模型评估
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/04/02</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="模型性能评估"><a href="#模型性能评估" class="headerlink" title="模型性能评估"></a>模型性能评估</h2><ol>
+<li><p>如何衡量评估你的模型的表现，问题就解决了一半了</p>
+</li>
+<li><p>为什么需要训练集，验证集，测试集？</p>
+<ol>
+<li>模型即使在训练集上达到了百分百的准确率，但是我们要使用的是其泛化的能力，即：预测新事物的能力</li>
+<li>如何判断其泛化能力，我们要使用模型未记忆（训练）的数据，但是经过一次次的训练测试，测试集达到了很好的效果，但是在放入生产预测时效果又不好了，why？<br>.    因为经过一次次的预测，模型会对测试集产生一些记忆，虽然只有一点点，但是次数多了，就会产生很大的影响<br>.    解决方法，就是在测试集里面再划分出一个集合，用于最后的模型评估</li>
+</ol>
+</li>
+<li><p>介绍一个平台——<a href="https://www.kaggle.com/" target="_blank" rel="noopener">Kaggle Challenge</a>，机器学习的竞赛平台<br>.         这里的数据分成三个部分，一个是训练集，一个公开的验证集，一个不公开的测试集<br>.         </p>
+<ol>
+<li>有些人公开的验证集上做的很好，但是测试集上的效果不佳，很有可能是验证集测试了很多遍；</li>
+<li>好的做法是，将公开的验证集划分出一块作为测试集</li>
+</ol>
+</li>
+<li><p>如何划分 训练集，验证集，测试集</p>
+<ol>
+<li><p>我一般在数据集不多的情况下划分为 6:2:2</p>
+</li>
+<li><p>如何判断验证集有效呢，要超过<strong>30个样本（经验法则）</strong>的改变才足以说明</p>
+<ol>
+<li><p>总共有3000个样本，效果从80%-&gt;81%</p>
+</li>
+<li><p>总共有3000个样本，效果从80%-&gt;80.5%</p>
+<p>0.01*3000 = 30 说明有效</p>
+<p>0.005 * 3000 = 15 说明有可能是噪声引起的</p>
+</li>
+</ol>
+</li>
+<li><p>验证集的大小</p>
+<ol>
+<li><p>一般要求&gt;30000个样本，那么30个有效变化，占了（30/30000 = 0.001 = 0.1%）,这样可以肉眼可见有效的变化</p>
+</li>
+<li><p>比起交叉验证，我更加倾向于获取更多的数据</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/04/08/21深度学习的优化函数/" class="pre-post btn btn-default" title='深度学习的优化函数'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">深度学习的优化函数</span>
+        </a>
+    
+    
+        <a href="/2018/03/12/test_09_保存模型_save/" class="next-post btn btn-default" title='sklearn的模型保存08'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">sklearn的模型保存08</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#模型性能评估"><span class="toc-text">模型性能评估</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

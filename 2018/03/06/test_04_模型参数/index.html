@@ -184,8 +184,7 @@
     </div>
     
     <div class="post-body post-content">
-        <p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/sklearn-logo.png" alt="sklearn logo"></p>
-<p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank" rel="noopener">参考英文API</a></p>
+        <p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank" rel="noopener">参考英文API</a></p>
 <p>我没有找到中文的API，如果哪位找到了，请告诉我</p>
 <h2 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h2><blockquote>
 <p>linear_model中的 model 中有很多常用的属性，我以LinearRegression为例子，这个model中的属性有<code>coef_</code> （斜率）以及 <code>intercept_</code>（截距） 还有<code>get_params()</code> （模型中所有的参数） ;</p>
@@ -194,21 +193,18 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入波士顿房价的数据</span></span><br><span class="line">boston_data = datasets.load_boston()</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入数据特征</span></span><br><span class="line">data_X = boston_data.data</span><br><span class="line"><span class="comment"># 读入标签</span></span><br><span class="line">data_Y = boston_data.target</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义模型</span></span><br><span class="line">model = LinearRegression()</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(data_X,data_Y)</span><br></pre></td></tr></table></figure>
-<pre><code>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 线性回归模型常用参数 coef_ (斜率) intercept_(截距)</span></span><br><span class="line"><span class="comment"># 模型的斜率</span></span><br><span class="line">model.coef_</span><br></pre></td></tr></table></figure>
-<pre><code>array([-1.07170557e-01,  4.63952195e-02,  2.08602395e-02,  2.68856140e+00,
-       -1.77957587e+01,  3.80475246e+00,  7.51061703e-04, -1.47575880e+00,
-        3.05655038e-01, -1.23293463e-02, -9.53463555e-01,  9.39251272e-03,
-       -5.25466633e-01])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模型的截距</span></span><br><span class="line">model.intercept_</span><br></pre></td></tr></table></figure>
-<pre><code>36.49110328036133
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输出模型中所有参数</span></span><br><span class="line">model.get_params()</span><br></pre></td></tr></table></figure>
-<pre><code>{&apos;copy_X&apos;: True, &apos;fit_intercept&apos;: True, &apos;n_jobs&apos;: 1, &apos;normalize&apos;: False}
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模型预测</span></span><br><span class="line">model.predict(data_X[<span class="number">0</span>:<span class="number">2</span>,])</span><br></pre></td></tr></table></figure>
-<pre><code>array([30.00821269, 25.0298606 ])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.score(data_X,data_Y)</span><br></pre></td></tr></table></figure>
-<pre><code>0.7406077428649427
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 线性回归模型常用参数 coef_ (斜率) intercept_(截距)</span></span><br><span class="line"><span class="comment"># 模型的斜率</span></span><br><span class="line">model.coef_</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">array([-1.07170557e-01,  4.63952195e-02,  2.08602395e-02,  2.68856140e+00,</span><br><span class="line">       -1.77957587e+01,  3.80475246e+00,  7.51061703e-04, -1.47575880e+00,</span><br><span class="line">        3.05655038e-01, -1.23293463e-02, -9.53463555e-01,  9.39251272e-03,</span><br><span class="line">       -5.25466633e-01])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模型的截距</span></span><br><span class="line">model.intercept_</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">36.49110328036133</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输出模型中所有参数</span></span><br><span class="line">model.get_params()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;copy_X&apos;: True, &apos;fit_intercept&apos;: True, &apos;n_jobs&apos;: 1, &apos;normalize&apos;: False&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模型预测</span></span><br><span class="line">model.predict(data_X[<span class="number">0</span>:<span class="number">2</span>,])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array([30.00821269, 25.0298606 ])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.score(data_X,data_Y)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.7406077428649427</span><br></pre></td></tr></table></figure>
+
     </div>
 
     <div class="post-footer">
