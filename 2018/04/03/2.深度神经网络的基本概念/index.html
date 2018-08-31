@@ -191,8 +191,8 @@
 <li>线性运行非常的稳定：y=wx ,x的微小变化不会引起y的巨大变化，所以模型中使用线性计算使模型保持稳定，还要加入非线性计算，使模型能够预测非线性的情况</li>
 </ol>
 <h4 id="链式法则"><a href="#链式法则" class="headerlink" title="链式法则"></a>链式法则</h4><p>  深度神经网络之间能够传递导数的秘诀就是——链式法则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g(f(x))&apos; = g&apos;(f(x))*f(x)&apos;</span><br></pre></td></tr></table></figure>
-<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><ol>
+<script type="math/tex; mode=display">
+g(f(x))' = g'(f(x))*f(x)'</script><h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><ol>
 <li>预测的过程是前向传播    模型调整参数的过程是反向传播；</li>
 <li>核心就是用了链式法则，这里不展开讲反向传播了；</li>
 <li>但是要记住的是反正传播相对于前向传播需要2倍的计算和空间，当你要改变模型的大小并放入内存中的时候就要考虑这个问题了</li>
@@ -218,15 +218,15 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2018/04/08/21深度学习的优化函数/" class="pre-post btn btn-default" title='深度学习的优化函数'>
+        <a href="/2018/04/03/1.多层神经网络TensorFlow ReLUs/" class="pre-post btn btn-default" title='多层神经网络'>
             <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-            <span class="hidden-xs">深度学习的优化函数</span>
+            <span class="hidden-xs">多层神经网络</span>
         </a>
     
     
-        <a href="/2018/04/03/1.多层神经网络TensorFlow ReLUs/" class="next-post btn btn-default" title='多层神经网络'>
+        <a href="/2018/04/02/20 型性能评估/" class="next-post btn btn-default" title='模型的性能评估'>
             <span class="hidden-lg">下一篇</span>
-            <span class="hidden-xs">多层神经网络</span><i class="fa fa-angle-right fa-fw"></i>
+            <span class="hidden-xs">模型的性能评估</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
 </div>

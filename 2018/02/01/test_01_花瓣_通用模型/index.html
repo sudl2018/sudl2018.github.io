@@ -218,9 +218,9 @@
        0, 2, 0, 1, 0, 1, 1, 1, 2, 2, 0, 1, 0, 2, 2, 2, 2, 0, 2, 2, 2, 0,
        0, 2, 0, 0, 0, 0, 1, 1, 0, 1, 0, 2, 2, 0, 2, 1, 2])
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义分类器</span></span><br><span class="line">knn = KNeighborsClassifier()</span><br><span class="line">knn.fit(X_train,Y_train)</span><br></pre></td></tr></table></figure>
-<pre><code>KNeighborsClassifier(algorithm=&apos;auto&apos;, leaf_size=30, metric=&apos;minkowski&apos;,
+<pre><code>KNeighborsClassifier(algorithm=&#39;auto&#39;, leaf_size=30, metric=&#39;minkowski&#39;,
            metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights=&apos;uniform&apos;)
+           weights=&#39;uniform&#39;)
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">knn.predict(X_test)</span><br></pre></td></tr></table></figure>
 <pre><code>array([0, 2, 1, 2, 0, 0, 2, 1, 2, 0, 2, 0, 1, 1, 1, 1, 1, 1, 0, 0, 2, 2,
        2, 2, 1, 2, 1, 1, 1, 2, 0, 2, 0, 1, 1, 1, 0, 2, 0, 1, 2, 1, 1, 0,
