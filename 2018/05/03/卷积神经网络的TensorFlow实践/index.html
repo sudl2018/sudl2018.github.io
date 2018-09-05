@@ -1,0 +1,593 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="sudoli&#39;s blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>卷积神经网络的代码实践 | sudoli&#39;s blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="sudoli&#39;s blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> best </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">sudoli&#39;s blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="卷积神经网络的代码实践">
+            
+	            卷积神经网络的代码实践
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/卷积神经网络">
+            卷积神经网络
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/深度学习" title='深度学习'>
+                        深度学习
+                    </a>
+                
+                    <a href="/tags/TensorFlow" title='TensorFlow'>
+                        TensorFlow
+                    </a>
+                
+                    <a href="/tags/池化" title='池化'>
+                        池化
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/05/03</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<h2 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h2><ul>
+<li>本文主要示范如何使用神经网络的卷积</li>
+<li>如何使用卷积核以及conv2d函数以及padding设置，stride设置</li>
+<li>我们这次用了两个卷积层，和一个全连接层</li>
+<li>这里我要说下的是padding<ul>
+<li>same:填充，比如我的图像是[16,28,28,3] stride[1,2,2,1] filter[3,3,3,8] 那么结果是 【16,28/2,28/2，8】==》【16,14,14,8】保证了stride的缩放肯定是成比例的，stride的宽度步长是2，那么宽度的采样后就是28/2</li>
+<li>valid 不填充，比如我的图像是[16,28,28,3] stride[1,2,2,1] filter[3,3,3,8] ，那么结果就是【16,25/3+1,25/3+1,8】==》【16,13,13,8】 看到没有，宽度变小了，不是原来的一半</li>
+</ul>
+</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="tf-nn-conv2d"><a href="#tf-nn-conv2d" class="headerlink" title="tf.nn.conv2d"></a>tf.nn.conv2d</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.conv2d(</span><br><span class="line">    input,</span><br><span class="line">    filter,</span><br><span class="line">    strides,</span><br><span class="line">    padding,</span><br><span class="line">    use_cudnn_on_gpu=<span class="keyword">True</span>,</span><br><span class="line">    data_format=<span class="string">'NHWC'</span>,</span><br><span class="line">    dilations=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">    name=<span class="keyword">None</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Args</th>
+<th>Annotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一个参数input</td>
+<td>指需要做卷积的输入图像，它要求是一个Tensor，具有[batch, in_height, in_width, in_channels]这样的shape，具体含义是[训练时一个batch的图片数量, 图片高度, 图片宽度, 图像通道数]，注意这是一个4维的Tensor，要求类型为float32和float64其中之一</td>
+</tr>
+<tr>
+<td>第二个参数filter</td>
+<td>相当于CNN中的卷积核，它要求是一个Tensor，具有[filter_height, filter_width, in_channels, out_channels]这样的shape，具体含义是[卷积核的高度，卷积核的宽度，图像通道数，卷积核个数]，有一个地方需要注意，第三维in_channels，就是参数input的第四维</td>
+</tr>
+<tr>
+<td>第三个参数strides</td>
+<td>卷积时在图像每一维的步长，这是一个一维的向量，长度4，<strong>和input 是一一对应的</strong>；一般我都设置为【1,2,2,1】或者【1,1,1,1】；</td>
+</tr>
+<tr>
+<td>第四个参数padding</td>
+<td>string类型的量，只能是”SAME”,”VALID”其中之一，这个值决定了不同的卷积方式</td>
+</tr>
+<tr>
+<td>第五个参数</td>
+<td>use_cudnn_on_gpu:bool类型，是否使用cudnn加速，默认为true</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>结果返回：</strong> 一个Tensor，这个输出，就是我们常说的feature map</p>
+<p>作者：Niling</p>
+<p>链接：<a href="https://www.jianshu.com/p/510bb4bc590f" target="_blank" rel="noopener">https://www.jianshu.com/p/510bb4bc590f</a></p>
+<p>來源：简书</p>
+<p>简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</p>
+<h3 id="tf-nn-max-pool"><a href="#tf-nn-max-pool" class="headerlink" title="tf.nn.max_pool()"></a>tf.nn.max_pool()</h3><h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><ul>
+<li>value：需要池化的输入，一般池化层接在卷积层后面，所以输入通常是feature map，依然是[batch, height, width, channels]这样的shape</li>
+<li>ksize：池化窗口的大小，取一个四维向量，一般是[1, height, width, 1]，因为我们不想在batch和channels上做池化，所以这两个维度设为了1</li>
+<li>strides：和卷积类似，窗口在每一个维度上滑动的步长，一般也是[1, stride,stride, 1]</li>
+<li>padding：和卷积类似，可以取’VALID’ 或者’SAME’</li>
+<li>use_cudnn_on_gpu：bool类型，是否使用cudnn加速，默认为true</li>
+<li>name：指定该操作的name</li>
+</ul>
+<h5 id="返回"><a href="#返回" class="headerlink" title="返回"></a>返回</h5><p>返回一个Tensor，类型不变，shape仍然是[batch, height, width, channels]这种形式</p>
+<p>作者：我是谁的小超人</p>
+<p>链接：<a href="https://www.jianshu.com/p/1d73fd1a256e" target="_blank" rel="noopener">https://www.jianshu.com/p/1d73fd1a256e</a></p>
+<p>來源：简书</p>
+<p>简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># These are all the modules we'll be using later. Make sure you can import them</span></span><br><span class="line"><span class="comment"># before proceeding further.</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> cPickle <span class="keyword">as</span> pickle</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> range</span><br></pre></td></tr></table></figure>
+<pre><code>C:\Users\Administrator\AppData\Local\Programs\Python\Python36\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pickle_file = <span class="string">'notMNIST.pickle'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(pickle_file, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">  save = pickle.load(f)</span><br><span class="line">  train_dataset = save[<span class="string">'train_dataset'</span>]</span><br><span class="line">  train_labels = save[<span class="string">'train_labels'</span>]</span><br><span class="line">  valid_dataset = save[<span class="string">'valid_dataset'</span>]</span><br><span class="line">  valid_labels = save[<span class="string">'valid_labels'</span>]</span><br><span class="line">  test_dataset = save[<span class="string">'test_dataset'</span>]</span><br><span class="line">  test_labels = save[<span class="string">'test_labels'</span>]</span><br><span class="line">  <span class="keyword">del</span> save  <span class="comment"># hint to help gc free up memory</span></span><br><span class="line">  print(<span class="string">'Training set'</span>, train_dataset.shape, train_labels.shape)</span><br><span class="line">  print(<span class="string">'Validation set'</span>, valid_dataset.shape, valid_labels.shape)</span><br><span class="line">  print(<span class="string">'Test set'</span>, test_dataset.shape, test_labels.shape)</span><br></pre></td></tr></table></figure>
+<pre><code>Training set (20000, 28, 28) (20000,)
+Validation set (1000, 28, 28) (1000,)
+Test set (1000, 28, 28) (1000,)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里我们把数据转化成 图像立方体：（宽，高，色道）</span></span><br><span class="line"><span class="comment"># 把标签转化成one-hot 向量</span></span><br><span class="line">image_size = <span class="number">28</span></span><br><span class="line">num_labels = <span class="number">10</span></span><br><span class="line">num_channels = <span class="number">1</span> <span class="comment"># grayscale</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reformat</span><span class="params">(dataset, labels)</span>:</span></span><br><span class="line">  dataset = dataset.reshape(</span><br><span class="line">    (<span class="number">-1</span>, image_size, image_size, num_channels)).astype(np.float32)</span><br><span class="line">  <span class="comment"># Map 1 to [0.0, 1.0, 0.0 ...], 2 to [0.0, 0.0, 1.0 ...]</span></span><br><span class="line">  labels = (np.arange(num_labels) == labels[:,<span class="keyword">None</span>]).astype(np.float32)</span><br><span class="line">  <span class="keyword">return</span> dataset, labels</span><br><span class="line">train_dataset, train_labels = reformat(train_dataset, train_labels)</span><br><span class="line">valid_dataset, valid_labels = reformat(valid_dataset, valid_labels)</span><br><span class="line">test_dataset, test_labels = reformat(test_dataset, test_labels)</span><br><span class="line">print(<span class="string">'Training set'</span>, train_dataset.shape, train_labels.shape)</span><br><span class="line">print(<span class="string">'Validation set'</span>, valid_dataset.shape, valid_labels.shape)</span><br><span class="line">print(<span class="string">'Test set'</span>, test_dataset.shape, test_labels.shape)</span><br></pre></td></tr></table></figure>
+<pre><code>Training set (20000, 28, 28, 1) (20000, 10)
+Validation set (1000, 28, 28, 1) (1000, 10)
+Test set (1000, 28, 28, 1) (1000, 10)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">accuracy</span><span class="params">(predictions, labels)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> (<span class="number">100.0</span> * np.sum(np.argmax(predictions, <span class="number">1</span>) == np.argmax(labels, <span class="number">1</span>))</span><br><span class="line">          / predictions.shape[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建一个由两层卷积层以及一个完全层组成的神经网络</span></span><br><span class="line"><span class="comment"># 卷积层计算代价高，所以要设置好卷积层的深度和宽度</span></span><br><span class="line">batch_size = <span class="number">16</span></span><br><span class="line">patch_size = <span class="number">5</span></span><br><span class="line">depth = <span class="number">16</span></span><br><span class="line">num_hidden = <span class="number">64</span></span><br><span class="line"></span><br><span class="line">graph = tf.Graph()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Input data.</span></span><br><span class="line">  tf_train_dataset = tf.placeholder(</span><br><span class="line">    tf.float32, shape=(batch_size, image_size, image_size, num_channels))</span><br><span class="line">  tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))</span><br><span class="line">  tf_valid_dataset = tf.constant(valid_dataset)</span><br><span class="line">  tf_test_dataset = tf.constant(test_dataset)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Variables. </span></span><br><span class="line">  <span class="comment"># 第一层我们用5*5*1的过滤器，总共depth 个，就是说一共有16个过滤器</span></span><br><span class="line">  <span class="comment"># 这里问个问题？为什么要设置方差是0.1</span></span><br><span class="line">  layer1_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [patch_size, patch_size, num_channels, depth], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer1_biases = tf.Variable(tf.zeros([depth]))</span><br><span class="line">  <span class="comment"># 第一层我们用5*5*16的过滤器，总共depth 个，就是说一共有16个过滤器</span></span><br><span class="line">  layer2_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [patch_size, patch_size, depth, depth], stddev=<span class="number">0.1</span>))</span><br><span class="line">  <span class="comment"># 偏移量都是1</span></span><br><span class="line">  layer2_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[depth]))</span><br><span class="line">  <span class="comment"># 第三层全连接层，产生一个64的节点的层</span></span><br><span class="line">  layer3_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [image_size // <span class="number">4</span> * image_size // <span class="number">4</span> * depth, num_hidden], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer3_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[num_hidden]))</span><br><span class="line">  <span class="comment"># 第四层全连接层，64个节点的层</span></span><br><span class="line">  layer4_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [num_hidden, num_labels], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer4_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[num_labels]))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Model. 定义模型计算</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">model</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="comment"># 这个conv2d常用函数，详见我的函数说明</span></span><br><span class="line">    conv = tf.nn.conv2d(data, layer1_weights, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line">    hidden = tf.nn.relu(conv + layer1_biases)</span><br><span class="line">    conv = tf.nn.conv2d(hidden, layer2_weights, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line">    hidden = tf.nn.relu(conv + layer2_biases)</span><br><span class="line">    <span class="comment"># 拿到shape,然后把shape 值变成list，方便后面reshape</span></span><br><span class="line">    shape = hidden.get_shape().as_list()</span><br><span class="line">    reshape = tf.reshape(hidden, [shape[<span class="number">0</span>], shape[<span class="number">1</span>] * shape[<span class="number">2</span>] * shape[<span class="number">3</span>]])</span><br><span class="line">    hidden = tf.nn.relu(tf.matmul(reshape, layer3_weights) + layer3_biases)</span><br><span class="line">    <span class="keyword">return</span> tf.matmul(hidden, layer4_weights) + layer4_biases</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Training computation.</span></span><br><span class="line">  logits = model(tf_train_dataset)</span><br><span class="line">  loss = tf.reduce_mean(</span><br><span class="line">    tf.nn.softmax_cross_entropy_with_logits(labels=tf_train_labels, logits=logits))</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Optimizer.</span></span><br><span class="line">  optimizer = tf.train.GradientDescentOptimizer(<span class="number">0.05</span>).minimize(loss)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Predictions for the training, validation, and test data.</span></span><br><span class="line">  train_prediction = tf.nn.softmax(logits)</span><br><span class="line">  valid_prediction = tf.nn.softmax(model(tf_valid_dataset))</span><br><span class="line">  test_prediction = tf.nn.softmax(model(tf_test_dataset))</span><br></pre></td></tr></table></figure>
+<pre><code>WARNING:tensorflow:From &lt;ipython-input-5-bb43204e2f1e&gt;:55: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+
+See tf.nn.softmax_cross_entropy_with_logits_v2.
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">num_steps = <span class="number">1001</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> session:</span><br><span class="line">  tf.global_variables_initializer().run()</span><br><span class="line">  print(<span class="string">'Initialized'</span>)</span><br><span class="line">  <span class="keyword">for</span> step <span class="keyword">in</span> range(num_steps):</span><br><span class="line">    offset = (step * batch_size) % (train_labels.shape[<span class="number">0</span>] - batch_size)</span><br><span class="line">    batch_data = train_dataset[offset:(offset + batch_size), :, :, :]</span><br><span class="line">    batch_labels = train_labels[offset:(offset + batch_size), :]</span><br><span class="line">    feed_dict = &#123;tf_train_dataset : batch_data, tf_train_labels : batch_labels&#125;</span><br><span class="line">    _, l, predictions = session.run(</span><br><span class="line">      [optimizer, loss, train_prediction], feed_dict=feed_dict)</span><br><span class="line">    <span class="keyword">if</span> (step % <span class="number">50</span> == <span class="number">0</span>):</span><br><span class="line">      print(<span class="string">'Minibatch loss at step %d: %f'</span> % (step, l))</span><br><span class="line">      print(<span class="string">'Minibatch accuracy: %.1f%%'</span> % accuracy(predictions, batch_labels))</span><br><span class="line">      print(<span class="string">'Validation accuracy: %.1f%%'</span> % accuracy(</span><br><span class="line">        valid_prediction.eval(), valid_labels))</span><br><span class="line">  print(<span class="string">'Test accuracy: %.1f%%'</span> % accuracy(test_prediction.eval(), test_labels))</span><br></pre></td></tr></table></figure>
+<pre><code>Initialized
+Minibatch loss at step 0: 2.871578
+Minibatch accuracy: 12.5%
+Validation accuracy: 11.4%
+Minibatch loss at step 50: 1.603516
+Minibatch accuracy: 37.5%
+Validation accuracy: 55.2%
+Minibatch loss at step 100: 1.132913
+Minibatch accuracy: 62.5%
+Validation accuracy: 74.9%
+Minibatch loss at step 150: 0.959747
+Minibatch accuracy: 68.8%
+Validation accuracy: 75.4%
+Minibatch loss at step 200: 0.925898
+Minibatch accuracy: 68.8%
+Validation accuracy: 78.4%
+Minibatch loss at step 250: 0.961354
+Minibatch accuracy: 75.0%
+Validation accuracy: 76.4%
+Minibatch loss at step 300: 0.885228
+Minibatch accuracy: 68.8%
+Validation accuracy: 79.8%
+Minibatch loss at step 350: 0.329915
+Minibatch accuracy: 87.5%
+Validation accuracy: 80.0%
+Minibatch loss at step 400: 0.525234
+Minibatch accuracy: 93.8%
+Validation accuracy: 80.2%
+Minibatch loss at step 450: 0.728237
+Minibatch accuracy: 75.0%
+Validation accuracy: 81.3%
+Minibatch loss at step 500: 0.781117
+Minibatch accuracy: 75.0%
+Validation accuracy: 80.7%
+Minibatch loss at step 550: 0.725993
+Minibatch accuracy: 75.0%
+Validation accuracy: 81.2%
+Minibatch loss at step 600: 0.588381
+Minibatch accuracy: 81.2%
+Validation accuracy: 80.9%
+Minibatch loss at step 650: 0.313426
+Minibatch accuracy: 87.5%
+Validation accuracy: 81.9%
+Minibatch loss at step 700: 0.076320
+Minibatch accuracy: 100.0%
+Validation accuracy: 83.8%
+Minibatch loss at step 750: 0.580707
+Minibatch accuracy: 87.5%
+Validation accuracy: 83.4%
+Minibatch loss at step 800: 0.641274
+Minibatch accuracy: 75.0%
+Validation accuracy: 82.4%
+Minibatch loss at step 850: 0.665619
+Minibatch accuracy: 75.0%
+Validation accuracy: 83.4%
+Minibatch loss at step 900: 0.026958
+Minibatch accuracy: 100.0%
+Validation accuracy: 83.8%
+Minibatch loss at step 950: 0.789471
+Minibatch accuracy: 81.2%
+Validation accuracy: 83.2%
+Minibatch loss at step 1000: 0.559735
+Minibatch accuracy: 87.5%
+Validation accuracy: 83.9%
+Test accuracy: 89.4%
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建一个由两层卷积层以及一个完全层组成的神经网络</span></span><br><span class="line"><span class="comment"># 卷积层计算代价高，所以要设置好卷积层的深度和宽度</span></span><br><span class="line">batch_size = <span class="number">16</span></span><br><span class="line">patch_size = <span class="number">5</span></span><br><span class="line">depth = <span class="number">16</span></span><br><span class="line">num_hidden = <span class="number">64</span></span><br><span class="line"></span><br><span class="line">graph = tf.Graph()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Input data.</span></span><br><span class="line">  tf_train_dataset = tf.placeholder(</span><br><span class="line">    tf.float32, shape=(batch_size, image_size, image_size, num_channels))</span><br><span class="line">  tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))</span><br><span class="line">  tf_valid_dataset = tf.constant(valid_dataset)</span><br><span class="line">  tf_test_dataset = tf.constant(test_dataset)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Variables. </span></span><br><span class="line">  <span class="comment"># 第一层我们用5*5*1的过滤器，总共depth 个，就是说一共有16个过滤器</span></span><br><span class="line">  <span class="comment"># 这里问个问题？为什么要设置方差是0.1</span></span><br><span class="line">  layer1_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [patch_size, patch_size, num_channels, depth], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer1_biases = tf.Variable(tf.zeros([depth]))</span><br><span class="line">  <span class="comment"># 第一层我们用5*5*16的过滤器，总共depth 个，就是说一共有16个过滤器</span></span><br><span class="line">  layer2_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [patch_size, patch_size, depth, depth], stddev=<span class="number">0.1</span>))</span><br><span class="line">  <span class="comment"># 偏移量都是1</span></span><br><span class="line">  layer2_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[depth]))</span><br><span class="line">  <span class="comment"># 第三层全连接层，产生一个64的节点的层</span></span><br><span class="line">  layer3_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [image_size // <span class="number">4</span> * image_size // <span class="number">4</span> * depth, num_hidden], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer3_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[num_hidden]))</span><br><span class="line">  <span class="comment"># 第四层全连接层，64个节点的层</span></span><br><span class="line">  layer4_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [num_hidden, num_labels], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer4_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[num_labels]))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Model. 定义模型计算</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">model</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="comment"># 这个conv2d常用函数，详见我的函数说明</span></span><br><span class="line">    conv = tf.nn.conv2d(data, layer1_weights, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line">    hidden = tf.nn.relu(conv + layer1_biases)</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># conv = tf.nn.conv2d(hidden, layer2_weights, [1, 2, 2, 1], padding='SAME')</span></span><br><span class="line">    <span class="comment"># hidden = tf.nn.relu(conv + layer2_biases)</span></span><br><span class="line">    <span class="comment"># 添加了池化层</span></span><br><span class="line">    hidden = tf.nn.max_pool(hidden,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],padding=<span class="string">'SAME'</span>)</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># 拿到shape,然后把shape 值变成list，方便后面reshape</span></span><br><span class="line">    shape = hidden.get_shape().as_list()</span><br><span class="line">    reshape = tf.reshape(hidden, [shape[<span class="number">0</span>], shape[<span class="number">1</span>] * shape[<span class="number">2</span>] * shape[<span class="number">3</span>]])</span><br><span class="line">    print(reshape.get_shape)</span><br><span class="line">    hidden = tf.nn.relu(tf.matmul(reshape, layer3_weights) + layer3_biases)</span><br><span class="line">    <span class="keyword">return</span> tf.matmul(hidden, layer4_weights) + layer4_biases</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Training computation.</span></span><br><span class="line">  logits = model(tf_train_dataset)</span><br><span class="line">  loss = tf.reduce_mean(</span><br><span class="line">    tf.nn.softmax_cross_entropy_with_logits(labels=tf_train_labels, logits=logits))</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Optimizer.</span></span><br><span class="line">  optimizer = tf.train.GradientDescentOptimizer(<span class="number">0.05</span>).minimize(loss)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Predictions for the training, validation, and test data.</span></span><br><span class="line">  train_prediction = tf.nn.softmax(logits)</span><br><span class="line">  valid_prediction = tf.nn.softmax(model(tf_valid_dataset))</span><br><span class="line">  test_prediction = tf.nn.softmax(model(tf_test_dataset))</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu:0&#39; shape=(16, 14, 14, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool:0&#39; shape=(16, 7, 7, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape:0&#39; shape=(16, 784) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu_2:0&#39; shape=(1000, 14, 14, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_1:0&#39; shape=(1000, 7, 7, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape_1:0&#39; shape=(1000, 784) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu_4:0&#39; shape=(1000, 14, 14, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_2:0&#39; shape=(1000, 7, 7, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape_2:0&#39; shape=(1000, 784) dtype=float32&gt;&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">num_steps = <span class="number">1001</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> session:</span><br><span class="line">  tf.global_variables_initializer().run()</span><br><span class="line">  print(<span class="string">'Initialized'</span>)</span><br><span class="line">  <span class="keyword">for</span> step <span class="keyword">in</span> range(num_steps):</span><br><span class="line">    offset = (step * batch_size) % (train_labels.shape[<span class="number">0</span>] - batch_size)</span><br><span class="line">    batch_data = train_dataset[offset:(offset + batch_size), :, :, :]</span><br><span class="line">    batch_labels = train_labels[offset:(offset + batch_size), :]</span><br><span class="line">    feed_dict = &#123;tf_train_dataset : batch_data, tf_train_labels : batch_labels&#125;</span><br><span class="line">    _, l, predictions = session.run(</span><br><span class="line">      [optimizer, loss, train_prediction], feed_dict=feed_dict)</span><br><span class="line">    <span class="keyword">if</span> (step % <span class="number">50</span> == <span class="number">0</span>):</span><br><span class="line">      print(<span class="string">'Minibatch loss at step %d: %f'</span> % (step, l))</span><br><span class="line">      print(<span class="string">'Minibatch accuracy: %.1f%%'</span> % accuracy(predictions, batch_labels))</span><br><span class="line">      print(<span class="string">'Validation accuracy: %.1f%%'</span> % accuracy(</span><br><span class="line">        valid_prediction.eval(), valid_labels))</span><br><span class="line">  print(<span class="string">'Test accuracy: %.1f%%'</span> % accuracy(test_prediction.eval(), test_labels))</span><br></pre></td></tr></table></figure>
+<pre><code>Initialized
+Minibatch loss at step 0: 2.481559
+Minibatch accuracy: 18.8%
+Validation accuracy: 9.8%
+Minibatch loss at step 50: 1.541600
+Minibatch accuracy: 50.0%
+Validation accuracy: 51.1%
+Minibatch loss at step 100: 0.922436
+Minibatch accuracy: 75.0%
+Validation accuracy: 75.2%
+Minibatch loss at step 150: 0.821155
+Minibatch accuracy: 75.0%
+Validation accuracy: 79.4%
+Minibatch loss at step 200: 0.842788
+Minibatch accuracy: 75.0%
+Validation accuracy: 79.3%
+Minibatch loss at step 250: 1.074179
+Minibatch accuracy: 62.5%
+Validation accuracy: 79.5%
+Minibatch loss at step 300: 0.586223
+Minibatch accuracy: 75.0%
+Validation accuracy: 80.2%
+Minibatch loss at step 350: 0.439200
+Minibatch accuracy: 93.8%
+Validation accuracy: 80.4%
+Minibatch loss at step 400: 0.518278
+Minibatch accuracy: 93.8%
+Validation accuracy: 81.0%
+Minibatch loss at step 450: 0.722640
+Minibatch accuracy: 81.2%
+Validation accuracy: 81.7%
+Minibatch loss at step 500: 0.790449
+Minibatch accuracy: 75.0%
+Validation accuracy: 81.8%
+Minibatch loss at step 550: 0.557499
+Minibatch accuracy: 75.0%
+Validation accuracy: 80.9%
+Minibatch loss at step 600: 0.579446
+Minibatch accuracy: 81.2%
+Validation accuracy: 81.9%
+Minibatch loss at step 650: 0.408497
+Minibatch accuracy: 87.5%
+Validation accuracy: 82.1%
+Minibatch loss at step 700: 0.196559
+Minibatch accuracy: 87.5%
+Validation accuracy: 82.5%
+Minibatch loss at step 750: 0.745032
+Minibatch accuracy: 87.5%
+Validation accuracy: 83.3%
+Minibatch loss at step 800: 0.657614
+Minibatch accuracy: 81.2%
+Validation accuracy: 82.0%
+Minibatch loss at step 850: 0.823133
+Minibatch accuracy: 62.5%
+Validation accuracy: 82.5%
+Minibatch loss at step 900: 0.030666
+Minibatch accuracy: 100.0%
+Validation accuracy: 83.5%
+Minibatch loss at step 950: 0.385080
+Minibatch accuracy: 87.5%
+Validation accuracy: 82.5%
+Minibatch loss at step 1000: 0.597917
+Minibatch accuracy: 87.5%
+Validation accuracy: 83.8%
+Test accuracy: 89.9%
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 任务二：调试卷积网络，使其达到最佳效果</span></span><br><span class="line"><span class="comment"># 可以参考LENET-5;添加dropout 还有学习速率衰减来试试</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">batch_size = <span class="number">50</span></span><br><span class="line">patch_size = <span class="number">5</span></span><br><span class="line">depth = <span class="number">16</span></span><br><span class="line">num_hidden = <span class="number">64</span></span><br><span class="line"></span><br><span class="line">graph = tf.Graph()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Input data.</span></span><br><span class="line">  tf_train_dataset = tf.placeholder(</span><br><span class="line">    tf.float32, shape=(batch_size, image_size, image_size, num_channels))</span><br><span class="line">  tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))</span><br><span class="line">  tf_valid_dataset = tf.constant(valid_dataset)</span><br><span class="line">  tf_test_dataset = tf.constant(test_dataset)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Variables. </span></span><br><span class="line">  <span class="comment"># 第一层我们用5*5*1的过滤器，总共6 个，步长1==》[16,28,28,6]</span></span><br><span class="line">  layer1_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [<span class="number">5</span>, <span class="number">5</span>, num_channels, <span class="number">6</span>], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer1_biases = tf.Variable(tf.zeros([<span class="number">6</span>]))</span><br><span class="line">  <span class="comment"># 第二层我们用2*2的最大池化，步长是2==》【16,14,14,6】</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 第三层卷积层【5,5】的过滤器16个，步长是1，valid ==》【16,10，10,16】</span></span><br><span class="line">  layer3_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [<span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">16</span>], stddev=<span class="number">0.1</span>))</span><br><span class="line">  <span class="comment"># 偏移量都是1</span></span><br><span class="line">  layer3_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">16</span>]))</span><br><span class="line">  <span class="comment"># 第四层最大池化，2*2的，步长2  ===》【16,5,5,16】</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 第五层卷积层 【5,5】的过滤器120个，步长1，valid ===》【16,1,1,120】</span></span><br><span class="line">  layer5_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [<span class="number">5</span>, <span class="number">5</span>,<span class="number">16</span>,<span class="number">120</span>], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer5_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">120</span>]))</span><br><span class="line">  <span class="comment"># 第六层全连接层，输出是84</span></span><br><span class="line">  layer6_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [<span class="number">120</span>, <span class="number">84</span>], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer6_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">84</span>]))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 第七层全连接层--输出层，输出是10</span></span><br><span class="line">  layer7_weights = tf.Variable(tf.truncated_normal(</span><br><span class="line">      [<span class="number">84</span>, <span class="number">10</span>], stddev=<span class="number">0.1</span>))</span><br><span class="line">  layer7_biases = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">10</span>]))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Model. 定义模型计算</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">model</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="comment"># 这个conv2d常用函数，详见我的函数说明</span></span><br><span class="line">    <span class="comment"># 第一层卷积</span></span><br><span class="line">    conv = tf.nn.conv2d(data, layer1_weights, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line">    hidden = tf.nn.relu(conv + layer1_biases)</span><br><span class="line">    <span class="comment"># conv = tf.nn.conv2d(hidden, layer2_weights, [1, 2, 2, 1], padding='SAME')</span></span><br><span class="line">    <span class="comment"># hidden = tf.nn.relu(conv + layer2_biases)</span></span><br><span class="line">    <span class="comment"># 添加了池化层</span></span><br><span class="line">    <span class="comment"># 第二层池化</span></span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    hidden = tf.nn.max_pool(hidden,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],padding=<span class="string">'SAME'</span>)</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># 第三层卷积，加上了dropout</span></span><br><span class="line">    <span class="comment"># conv = tf.nn.conv2d(tf.nn.dropout(hidden,keep_prob=0.5), layer3_weights, [1, 1, 1, 1], padding='VALID')</span></span><br><span class="line">    conv = tf.nn.conv2d(hidden, layer3_weights, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'VALID'</span>)</span><br><span class="line">    hidden = conv + layer3_biases</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># 第四层最大池化</span></span><br><span class="line">    hidden = tf.nn.max_pool(hidden,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>],padding=<span class="string">'SAME'</span>)</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># 第五层卷积层</span></span><br><span class="line">    conv = tf.nn.conv2d(hidden, layer5_weights, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'VALID'</span>)</span><br><span class="line">    hidden = conv + layer5_biases</span><br><span class="line">    print(hidden.get_shape)</span><br><span class="line">    <span class="comment"># 第六层全连接层</span></span><br><span class="line">    <span class="comment"># 拿到shape,然后把shape 值变成list，方便后面reshape</span></span><br><span class="line">    shape = hidden.get_shape().as_list()</span><br><span class="line">    reshape = tf.reshape(hidden, [shape[<span class="number">0</span>], shape[<span class="number">1</span>] * shape[<span class="number">2</span>] * shape[<span class="number">3</span>]])</span><br><span class="line">    print(reshape.get_shape)</span><br><span class="line">    hidden = tf.nn.sigmoid(tf.matmul(reshape, layer6_weights) + layer6_biases)</span><br><span class="line">    <span class="keyword">return</span> tf.matmul(hidden, layer7_weights) + layer7_biases</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Training computation.</span></span><br><span class="line">  logits = model(tf_train_dataset)</span><br><span class="line">  loss = tf.reduce_mean(</span><br><span class="line">    tf.nn.softmax_cross_entropy_with_logits(labels=tf_train_labels, logits=logits))</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># # Optimizer.</span></span><br><span class="line">  <span class="comment"># optimizer = tf.train.GradientDescentOptimizer(0.05).minimize(loss)</span></span><br><span class="line">  <span class="comment"># 优化器采用GD+学习速率衰减</span></span><br><span class="line">  global_step = tf.Variable(<span class="number">0</span>)  <span class="comment"># count the number of steps taken.</span></span><br><span class="line">  learning_rate = tf.train.exponential_decay(<span class="number">0.05</span>, global_step,decay_steps=<span class="number">500</span>,decay_rate=<span class="number">0.96</span>)</span><br><span class="line">  optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Predictions for the training, validation, and test data.</span></span><br><span class="line">  train_prediction = tf.nn.softmax(logits)</span><br><span class="line">  valid_prediction = tf.nn.softmax(model(tf_valid_dataset))</span><br><span class="line">  test_prediction = tf.nn.softmax(model(tf_test_dataset))</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu:0&#39; shape=(50, 28, 28, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool:0&#39; shape=(50, 14, 14, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_1:0&#39; shape=(50, 10, 10, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_1:0&#39; shape=(50, 5, 5, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_2:0&#39; shape=(50, 1, 1, 120) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape:0&#39; shape=(50, 120) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu_1:0&#39; shape=(1000, 28, 28, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_2:0&#39; shape=(1000, 14, 14, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_6:0&#39; shape=(1000, 10, 10, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_3:0&#39; shape=(1000, 5, 5, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_7:0&#39; shape=(1000, 1, 1, 120) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape_1:0&#39; shape=(1000, 120) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Relu_2:0&#39; shape=(1000, 28, 28, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_4:0&#39; shape=(1000, 14, 14, 6) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_11:0&#39; shape=(1000, 10, 10, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;MaxPool_5:0&#39; shape=(1000, 5, 5, 16) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;add_12:0&#39; shape=(1000, 1, 1, 120) dtype=float32&gt;&gt;
+&lt;bound method Tensor.get_shape of &lt;tf.Tensor &#39;Reshape_2:0&#39; shape=(1000, 120) dtype=float32&gt;&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">num_steps = <span class="number">5001</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> session:</span><br><span class="line">  tf.global_variables_initializer().run()</span><br><span class="line">  print(<span class="string">'Initialized'</span>)</span><br><span class="line">  <span class="keyword">for</span> step <span class="keyword">in</span> range(num_steps):</span><br><span class="line">    offset = (step * batch_size) % (train_labels.shape[<span class="number">0</span>] - batch_size)</span><br><span class="line">    batch_data = train_dataset[offset:(offset + batch_size), :, :, :]</span><br><span class="line">    batch_labels = train_labels[offset:(offset + batch_size), :]</span><br><span class="line">    feed_dict = &#123;tf_train_dataset : batch_data, tf_train_labels : batch_labels&#125;</span><br><span class="line">    _, l, predictions = session.run(</span><br><span class="line">      [optimizer, loss, train_prediction], feed_dict=feed_dict)</span><br><span class="line">    <span class="keyword">if</span> (step % <span class="number">300</span> == <span class="number">0</span>):</span><br><span class="line">      print(<span class="string">'Minibatch loss at step %d: %f'</span> % (step, l))</span><br><span class="line">      print(<span class="string">'Minibatch accuracy: %.1f%%'</span> % accuracy(predictions, batch_labels))</span><br><span class="line">      print(<span class="string">'Validation accuracy: %.1f%%'</span> % accuracy(</span><br><span class="line">        valid_prediction.eval(), valid_labels))</span><br><span class="line">  print(<span class="string">'Test accuracy: %.1f%%'</span> % accuracy(test_prediction.eval(), test_labels))</span><br></pre></td></tr></table></figure>
+<pre><code>Initialized
+Minibatch loss at step 0: 2.309445
+Minibatch accuracy: 22.0%
+Validation accuracy: 10.0%
+Minibatch loss at step 300: 0.865154
+Minibatch accuracy: 78.0%
+Validation accuracy: 78.5%
+Minibatch loss at step 600: 1.000986
+Minibatch accuracy: 78.0%
+Validation accuracy: 80.1%
+Minibatch loss at step 900: 0.359938
+Minibatch accuracy: 92.0%
+Validation accuracy: 82.1%
+Minibatch loss at step 1200: 0.665972
+Minibatch accuracy: 82.0%
+Validation accuracy: 82.4%
+Minibatch loss at step 1500: 0.526232
+Minibatch accuracy: 84.0%
+Validation accuracy: 83.3%
+Minibatch loss at step 1800: 0.601502
+Minibatch accuracy: 84.0%
+Validation accuracy: 84.0%
+Minibatch loss at step 2100: 0.366273
+Minibatch accuracy: 88.0%
+Validation accuracy: 85.1%
+Minibatch loss at step 2400: 0.402447
+Minibatch accuracy: 88.0%
+Validation accuracy: 85.2%
+Minibatch loss at step 2700: 0.464672
+Minibatch accuracy: 88.0%
+Validation accuracy: 85.0%
+Minibatch loss at step 3000: 0.415956
+Minibatch accuracy: 90.0%
+Validation accuracy: 86.0%
+Minibatch loss at step 3300: 0.414384
+Minibatch accuracy: 86.0%
+Validation accuracy: 86.8%
+Minibatch loss at step 3600: 0.384747
+Minibatch accuracy: 88.0%
+Validation accuracy: 86.2%
+Minibatch loss at step 3900: 0.443196
+Minibatch accuracy: 84.0%
+Validation accuracy: 86.2%
+Minibatch loss at step 4200: 0.301673
+Minibatch accuracy: 92.0%
+Validation accuracy: 86.4%
+Minibatch loss at step 4500: 0.493804
+Minibatch accuracy: 86.0%
+Validation accuracy: 87.1%
+Minibatch loss at step 4800: 0.311406
+Minibatch accuracy: 92.0%
+Validation accuracy: 86.8%
+Test accuracy: 92.1%
+</code></pre>
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/05/03/2018-05-03-卷积神经网络/" class="pre-post btn btn-default" title='卷积神经网络'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">卷积神经网络</span>
+        </a>
+    
+    
+        <a href="/2018/05/01/使用正则化去优化深度学习模型/" class="next-post btn btn-default" title='使用正则化去优化深度学习模型'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">使用正则化去优化深度学习模型</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#要点"><span class="toc-text">要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-nn-conv2d"><span class="toc-text">tf.nn.conv2d</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tf-nn-max-pool"><span class="toc-text">tf.nn.max_pool()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#参数"><span class="toc-text">参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#返回"><span class="toc-text">返回</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</body>
+</html>
