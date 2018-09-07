@@ -1,0 +1,598 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="sudoli&#39;s blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>使用TensorFlow训练一个 skip-gram 模型并可视化输出 | sudoli&#39;s blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="sudoli&#39;s blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> best </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">sudoli&#39;s blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="使用TensorFlow训练一个 skip-gram 模型并可视化输出">
+            
+	            使用TensorFlow训练一个 skip-gram 模型并可视化输出
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/RNN">
+            RNN
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/深度学习" title='深度学习'>
+                        深度学习
+                    </a>
+                
+                    <a href="/tags/skip-gram" title='skip-gram'>
+                        skip-gram
+                    </a>
+                
+                    <a href="/tags/RNN" title='RNN'>
+                        RNN
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/06/15</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>我们看深度学习如何处理文本的</p>
+<h5 id="1-目标：训练一个skip-gram模型"><a href="#1-目标：训练一个skip-gram模型" class="headerlink" title="1. 目标：训练一个skip-gram模型"></a>1. 目标：训练一个skip-gram模型</h5><h5 id="2-什么是Skip-Gram模型-和-CBOW-模型"><a href="#2-什么是Skip-Gram模型-和-CBOW-模型" class="headerlink" title="2.什么是Skip-Gram模型 和 CBOW 模型"></a>2.什么是Skip-Gram模型 和 CBOW 模型</h5><p>如果是用一个词语作为输入，来预测它周围的上下文，那这个模型叫做【Skip-gram】 </p>
+<p>而如果是拿一个词语的上下文作为输入，来预测这个词语本身，则是 【CBOW 】</p>
+<p>CBOW对小型数据库比较合适，而Skip-Gram在大型语料中表现更好。</p>
+<h5 id="3-简单了解下Skip-Gram模型"><a href="#3-简单了解下Skip-Gram模型" class="headerlink" title="3.简单了解下Skip-Gram模型"></a>3.简单了解下Skip-Gram模型</h5><p>比如『她们 夸 吴彦祖 帅 到 没朋友』，如果输入 x 是『吴彦祖』，那么 y 可以是『她们』、『夸』、『帅』、『没朋友』这些词</p>
+<p>我们的目的就是通过词嵌入 计算 目标和预测相同的概率</p>
+<p>one-hot ——&gt; 词嵌入 ——&gt;softmax——&gt; 计算概率</p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1536298639180clipboard.png" alt="img"></p>
+<h5 id="4-简单了解下CBOW"><a href="#4-简单了解下CBOW" class="headerlink" title="4.简单了解下CBOW"></a>4.简单了解下CBOW</h5><p>跟 Skip-gram 相似，只不过:</p>
+<p>Skip-gram 是预测一个词的上下文，而 CBOW 是用上下文预测这个词</p>
+<p>网络结构如下</p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1536298641201clipboard.png" alt="img"></p>
+<h5 id="5-介绍下数据集"><a href="#5-介绍下数据集" class="headerlink" title="5.介绍下数据集"></a>5.介绍下数据集</h5><p>使用的是<a href="http://mattmahoney.net/dc/textdata" target="_blank" rel="noopener">Text8</a>数据集，压缩后大小是29.9M，包含单词个数 17005207个，大约1700万</p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h5 id="collections-Counter"><a href="#collections-Counter" class="headerlink" title="collections.Counter"></a>collections.Counter</h5><p>Counter类的目的是用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value；类似于java的map</p>
+<h5 id="most-common-n"><a href="#most-common-n" class="headerlink" title="most_common([n])"></a>most_common([n])</h5><p>返回一个TopN列表。如果n没有被指定，则返回所有元素。当多个元素计数值相同时，排列是无确定顺序的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">words = [&apos;hello&apos;,&apos;world&apos;,&apos;hello&apos;,&apos;hello&apos;,&apos;me&apos;]</span><br><span class="line">collections.Counter(words)</span><br><span class="line">&gt;&gt;&gt;&gt;   Counter(&#123;&apos;hello&apos;: 3, &apos;world&apos;: 1, &apos;me&apos;: 1&#125;)</span><br><span class="line">collections.Counter(words).most_common(2)</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;	[(&apos;hello&apos;, 3), (&apos;world&apos;, 1)]</span><br></pre></td></tr></table></figure>
+<h5 id="extend"><a href="#extend" class="headerlink" title="extend()"></a>extend()</h5><p>Python List extend()方法,extend() 函数用于在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。</p>
+<h5 id="dict"><a href="#dict" class="headerlink" title="dict()"></a>dict()</h5><p>字典是另一种可变容器模型，且可存储任意类型对象。字典的每个键值 key=&gt;value 对用冒号 : 分割</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mydict = &#123;&apos;a&apos;: 1, &apos;b&apos;: 2, &apos;b&apos;: &apos;3&apos;&#125;;</span><br></pre></td></tr></table></figure>
+<p>如何反转键值对呢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reversed_dict = dict(zip(mydict.values(),mydict.keys()))</span><br></pre></td></tr></table></figure>
+<h5 id="tf-truncated-normal与tf-random-normal"><a href="#tf-truncated-normal与tf-random-normal" class="headerlink" title="tf.truncated_normal与tf.random_normal"></a>tf.truncated_normal与tf.random_normal</h5><p>区别就是truncated_normal的随机值范围是 两个标准差以内</p>
+<script type="math/tex; mode=display">
+(mean?2stddev,mean+2stddev)\\
+stddev=\sigma=\sqrt{\frac{\sum_{i=0}^{N}(x_i-u)^2}{N}}</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tf.random_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None) </span><br><span class="line">shape：1-D向量 </span><br><span class="line">mean :均值，默认为0，即正态分布中的μ</span><br><span class="line">stddev :标准差，默认为1，即正态分布中的σ</span><br><span class="line">seed : 种子，同一个seed下的分布值均相同；</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def tf.truncated_normal(</span><br><span class="line">      shape, #一个一维整数张量 或 一个Python数组。 这个值决定输出张量的形状。</span><br><span class="line">      mean=0.0,#一个零维张量或 类型属于dtype的Python值. 这个值决定正态分布片段的平均值</span><br><span class="line">      stddev=1.0,# 一个零维张量或 类型属于dtype的Python值. 这个值决定正态分布片段的标准差</span><br><span class="line">      dtype=tf.float32,# 输出的类型.</span><br><span class="line">      seed=None, # 一个Python整数. 被用来为正态分布创建一个随机种子. </span><br><span class="line">      name=None)#操作的名字 (可选参数).</span><br></pre></td></tr></table></figure>
+<h5 id="tf-random-uniform"><a href="#tf-random-uniform" class="headerlink" title="tf.random_uniform"></a>tf.random_uniform</h5><p>从字面uniform看就是均匀分布的；random_uniform:均匀分布随机数，范围为[minval,maxval]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.random_uniform(shape,minval=0,maxval=None,dtype=tf.float32) </span><br><span class="line">#例如 返回6*6的矩阵，产生于low和high之间，产生的值是均匀分布的</span><br><span class="line">tf.random_uniform((6, 6), minval=low,maxval=high,dtype=tf.float32)))</span><br></pre></td></tr></table></figure>
+<h5 id="tf-nn-embedding-lookup"><a href="#tf-nn-embedding-lookup" class="headerlink" title="tf.nn.embedding_lookup"></a>tf.nn.embedding_lookup</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.embedding_lookup(params, ids, partition_strategy=&apos;mod&apos;, name=None, validate_indices=True, max_norm=None)</span><br><span class="line"></span><br><span class="line">partition_strategy 是&quot;mod&quot; 和 &quot;div&quot;两种参数</span><br></pre></td></tr></table></figure>
+<p>embedding_lookup(params, ids)其实就是按照ids，返回params中的ids行的向量。</p>
+<p>比如说，ids=[1,3,2],就是返回params中第1,3,2行。返回结果为由params的1,3,2行向量组成的tensor。</p>
+<h5 id="tf-nn-sampled-softmax-loss"><a href="#tf-nn-sampled-softmax-loss" class="headerlink" title="tf.nn.sampled_softmax_loss"></a>tf.nn.sampled_softmax_loss</h5><p>先采样后计算交叉熵损失</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sampled_softmax_loss(</span><br><span class="line">    weights,</span><br><span class="line">    biases,</span><br><span class="line">    labels,</span><br><span class="line">    inputs, </span><br><span class="line">    num_sampled, <span class="comment">#采样的个数</span></span><br><span class="line">    num_classes, <span class="comment">#总的类别个数</span></span><br><span class="line">    num_true=<span class="number">1</span>,</span><br><span class="line">    sampled_values=<span class="keyword">None</span>,</span><br><span class="line">    remove_accidental_hits=<span class="keyword">True</span>,</span><br><span class="line">    partition_strategy=<span class="string">'mod'</span>,</span><br><span class="line">    name=<span class="string">'sampled_softmax_loss'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h5 id="余弦相似度"><a href="#余弦相似度" class="headerlink" title="余弦相似度"></a>余弦相似度</h5><script type="math/tex; mode=display">
+similarity = cos(\theta) = { A \cdot B \over \|A\| \cdot \|B\| } = A_{normalized} \cdot B_{normalized}</script><p>所以归一化所有的词嵌入向量后，方便计算余弦相似度啊，只要做矩阵乘法，就可以得出所有向量的向量的相似度</p>
+<h5 id="numpy-argsort"><a href="#numpy-argsort" class="headerlink" title="numpy.argsort"></a>numpy.argsort</h5><p>元素从小到大排序，返回其索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">argsort(a, axis=-1, kind=&apos;quicksort&apos;, order=None)</span><br><span class="line">例子：</span><br><span class="line">np.argsort(-x) #按降序排列</span><br><span class="line">np.argsort(x) #按升序排列</span><br></pre></td></tr></table></figure>
+<p>扩展一下：</p>
+<p>对list 排序用sort().</p>
+<p>对任何可迭代序列排序用sorted().</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pylab</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> range</span><br><span class="line"><span class="keyword">from</span> six.moves.urllib.request <span class="keyword">import</span> urlretrieve</span><br><span class="line"><span class="keyword">from</span> sklearn.manifold <span class="keyword">import</span> TSNE</span><br></pre></td></tr></table></figure>
+<pre><code>C:\Users\Administrator\AppData\Local\Programs\Python\Python36\lib\site-packages\h5py\__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载文本数据集</span></span><br><span class="line">url = <span class="string">'http://mattmahoney.net/dc/'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maybe_download</span><span class="params">(filename, expected_bytes)</span>:</span></span><br><span class="line">  <span class="string">"""Download a file if not present, and make sure it's the right size."""</span></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(filename):</span><br><span class="line">    filename, _ = urlretrieve(url + filename, filename)</span><br><span class="line">  statinfo = os.stat(filename)</span><br><span class="line">  <span class="keyword">if</span> statinfo.st_size == expected_bytes:</span><br><span class="line">    print(<span class="string">'Found and verified %s'</span> % filename)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    print(statinfo.st_size)</span><br><span class="line">    <span class="keyword">raise</span> Exception(</span><br><span class="line">      <span class="string">'Failed to verify '</span> + filename + <span class="string">'. Can you get to it with a browser?'</span>)</span><br><span class="line">  <span class="keyword">return</span> filename</span><br><span class="line"></span><br><span class="line">filename = maybe_download(<span class="string">'text8.zip'</span>, <span class="number">31344016</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Found and verified text8.zip
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将数据集读成String</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_data</span><span class="params">(filename)</span>:</span></span><br><span class="line">  <span class="string">"""Extract the first file enclosed in a zip file as a list of words"""</span></span><br><span class="line">  <span class="keyword">with</span> zipfile.ZipFile(filename) <span class="keyword">as</span> f:</span><br><span class="line">    data = tf.compat.as_str(f.read(f.namelist()[<span class="number">0</span>])).split()</span><br><span class="line">  <span class="keyword">return</span> data</span><br><span class="line">  </span><br><span class="line">words = read_data(filename)</span><br><span class="line">print(<span class="string">'Data size %d'</span> % len(words))</span><br></pre></td></tr></table></figure>
+<pre><code>Data size 17005207
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 弄个字典存放单词，去掉频率极少的单词，加入UNK 作为未见单词分类，</span></span><br><span class="line"><span class="comment"># 先弄个5万个单词</span></span><br><span class="line">vocabulary_size = <span class="number">50000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_dataset</span><span class="params">(words)</span>:</span></span><br><span class="line">  count = [[<span class="string">'UNK'</span>, <span class="number">-1</span>]]</span><br><span class="line">  <span class="comment"># extend() 函数用于在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。</span></span><br><span class="line">  <span class="comment"># count 中存放着最常用5万个单词，unk 作为第一个单词</span></span><br><span class="line">  count.extend(collections.Counter(words).most_common(vocabulary_size - <span class="number">1</span>))</span><br><span class="line">  dictionary = dict()</span><br><span class="line">  <span class="keyword">for</span> word, _ <span class="keyword">in</span> count:</span><br><span class="line">    <span class="comment"># 把最常见5万的word 放入 dictionary</span></span><br><span class="line">    dictionary[word] = len(dictionary)</span><br><span class="line">  data = list()</span><br><span class="line">  unk_count = <span class="number">0</span></span><br><span class="line">  <span class="comment"># 清点words中不在5万个单词内的unk的个数；</span></span><br><span class="line">  <span class="comment"># 把words文本表示成 dict 中的value</span></span><br><span class="line">  <span class="comment"># 比如 “ my name is sudoli” ==&gt; "[12,45,48,unk]"</span></span><br><span class="line">  <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">    <span class="keyword">if</span> word <span class="keyword">in</span> dictionary:</span><br><span class="line">      index = dictionary[word]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      index = <span class="number">0</span>  <span class="comment"># dictionary['UNK']</span></span><br><span class="line">      unk_count = unk_count + <span class="number">1</span></span><br><span class="line">    data.append(index)</span><br><span class="line">  count[<span class="number">0</span>][<span class="number">1</span>] = unk_count</span><br><span class="line">  <span class="comment"># 把键值对交换一下</span></span><br><span class="line">  reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys())) </span><br><span class="line">  <span class="keyword">return</span> data, count, dictionary, reverse_dictionary</span><br><span class="line"></span><br><span class="line">data, count, dictionary, reverse_dictionary = build_dataset(words)</span><br><span class="line">print(<span class="string">'Most common words (+UNK)'</span>, count[:<span class="number">5</span>])</span><br><span class="line">print(<span class="string">'Sample data'</span>, data[:<span class="number">10</span>])</span><br><span class="line"><span class="keyword">del</span> words  <span class="comment"># 减少内存损耗</span></span><br></pre></td></tr></table></figure>
+<pre><code>Most common words (+UNK) [[&#39;UNK&#39;, 418391], (&#39;the&#39;, 1061396), (&#39;of&#39;, 593677), (&#39;and&#39;, 416629), (&#39;one&#39;, 411764)]
+Sample data [5234, 3081, 12, 6, 195, 2, 3134, 46, 59, 156]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sentens = [];</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> data[<span class="number">100</span>:<span class="number">110</span>]:</span><br><span class="line">    sentens.append(reverse_dictionary[i]);</span><br><span class="line">    </span><br><span class="line">print(sentens)</span><br></pre></td></tr></table></figure>
+<pre><code>[&#39;interpretations&#39;, &#39;of&#39;, &#39;what&#39;, &#39;this&#39;, &#39;means&#39;, &#39;anarchism&#39;, &#39;also&#39;, &#39;refers&#39;, &#39;to&#39;, &#39;related&#39;]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 为skip-gram 生成一个训练批次</span></span><br><span class="line">data_index = <span class="number">0</span></span><br><span class="line"><span class="comment"># batch_size    批次大小</span></span><br><span class="line"><span class="comment"># num_skips     以这个单词为中心选择多少个单词</span></span><br><span class="line"><span class="comment"># skip_window   在多大的窗口中选择，关键词的两边的窗口中的所有单词==num_skips；所以有num_skips = 2 * skip_window,但是也可以不取满</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_batch</span><span class="params">(batch_size, num_skips, skip_window)</span>:</span></span><br><span class="line">  <span class="keyword">global</span> data_index</span><br><span class="line">  <span class="keyword">assert</span> batch_size % num_skips == <span class="number">0</span></span><br><span class="line">  <span class="keyword">assert</span> num_skips &lt;= <span class="number">2</span> * skip_window</span><br><span class="line">  <span class="comment"># batch 是个list</span></span><br><span class="line">  batch = np.ndarray(shape=(batch_size), dtype=np.int32)</span><br><span class="line">  <span class="comment">#labels 是个矩阵，bacth_size *1  的矩阵</span></span><br><span class="line">  labels = np.ndarray(shape=(batch_size, <span class="number">1</span>), dtype=np.int32)</span><br><span class="line">  span = <span class="number">2</span> * skip_window + <span class="number">1</span> <span class="comment"># [ skip_window target skip_window ]</span></span><br><span class="line">  <span class="comment"># 双向队列</span></span><br><span class="line">  buffer = collections.deque(maxlen=span)</span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(span):</span><br><span class="line">    buffer.append(data[data_index])</span><br><span class="line">    data_index = (data_index + <span class="number">1</span>) % len(data)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(batch_size // num_skips):</span><br><span class="line">    target = skip_window  <span class="comment"># target label at the center of the buffer</span></span><br><span class="line">    targets_to_avoid = [ skip_window ]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(num_skips):</span><br><span class="line">      <span class="keyword">while</span> target <span class="keyword">in</span> targets_to_avoid:</span><br><span class="line">        target = random.randint(<span class="number">0</span>, span - <span class="number">1</span>)</span><br><span class="line">      targets_to_avoid.append(target)</span><br><span class="line">      batch[i * num_skips + j] = buffer[skip_window]</span><br><span class="line">      labels[i * num_skips + j, <span class="number">0</span>] = buffer[target]</span><br><span class="line">    buffer.append(data[data_index])</span><br><span class="line">    data_index = (data_index + <span class="number">1</span>) % len(data)</span><br><span class="line">  <span class="keyword">return</span> batch, labels</span><br><span class="line"></span><br><span class="line">print(<span class="string">'data:'</span>, [reverse_dictionary[di] <span class="keyword">for</span> di <span class="keyword">in</span> data[:<span class="number">12</span>]])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> num_skips, skip_window <span class="keyword">in</span> [(<span class="number">2</span>, <span class="number">1</span>), (<span class="number">4</span>, <span class="number">2</span>)]:</span><br><span class="line">    data_index = <span class="number">0</span></span><br><span class="line">    batch, labels = generate_batch(batch_size=<span class="number">12</span>, num_skips=num_skips, skip_window=skip_window)</span><br><span class="line">    print(<span class="string">'\nwith num_skips = %d and skip_window = %d:'</span> % (num_skips, skip_window))</span><br><span class="line">    print(<span class="string">'    batch:'</span>, [reverse_dictionary[bi] <span class="keyword">for</span> bi <span class="keyword">in</span> batch])</span><br><span class="line">    print(<span class="string">'    labels:'</span>, [reverse_dictionary[li] <span class="keyword">for</span> li <span class="keyword">in</span> labels.reshape(<span class="number">12</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>data: [&#39;anarchism&#39;, &#39;originated&#39;, &#39;as&#39;, &#39;a&#39;, &#39;term&#39;, &#39;of&#39;, &#39;abuse&#39;, &#39;first&#39;, &#39;used&#39;, &#39;against&#39;, &#39;early&#39;, &#39;working&#39;]
+
+with num_skips = 2 and skip_window = 1:
+    batch: [&#39;originated&#39;, &#39;originated&#39;, &#39;as&#39;, &#39;as&#39;, &#39;a&#39;, &#39;a&#39;, &#39;term&#39;, &#39;term&#39;, &#39;of&#39;, &#39;of&#39;, &#39;abuse&#39;, &#39;abuse&#39;]
+    labels: [&#39;anarchism&#39;, &#39;as&#39;, &#39;a&#39;, &#39;originated&#39;, &#39;term&#39;, &#39;as&#39;, &#39;a&#39;, &#39;of&#39;, &#39;abuse&#39;, &#39;term&#39;, &#39;first&#39;, &#39;of&#39;]
+
+with num_skips = 4 and skip_window = 2:
+    batch: [&#39;as&#39;, &#39;as&#39;, &#39;as&#39;, &#39;as&#39;, &#39;a&#39;, &#39;a&#39;, &#39;a&#39;, &#39;a&#39;, &#39;term&#39;, &#39;term&#39;, &#39;term&#39;, &#39;term&#39;]
+    labels: [&#39;anarchism&#39;, &#39;originated&#39;, &#39;term&#39;, &#39;a&#39;, &#39;originated&#39;, &#39;term&#39;, &#39;of&#39;, &#39;as&#39;, &#39;abuse&#39;, &#39;a&#39;, &#39;as&#39;, &#39;of&#39;]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 接下来就是核心部分了 skip-gram</span></span><br><span class="line">batch_size = <span class="number">128</span></span><br><span class="line">embedding_size = <span class="number">128</span> <span class="comment">#  这个就是最终词嵌入向量的维度数</span></span><br><span class="line">skip_window = <span class="number">1</span> <span class="comment"># 这个就是左右窗口的要考虑的大小了</span></span><br><span class="line">num_skips = <span class="number">2</span> <span class="comment"># 总共预测关键词周围几个单词</span></span><br><span class="line"><span class="comment"># 我们再随机构建一个验证集，验证集选择最常见的单词</span></span><br><span class="line">valid_size = <span class="number">16</span> <span class="comment"># Random set of words to evaluate similarity on.</span></span><br><span class="line">valid_window = <span class="number">100</span> <span class="comment"># Only pick dev samples in the head of the distribution.</span></span><br><span class="line"><span class="comment"># 从100的窗口范围内，采样16个样本大小</span></span><br><span class="line">valid_examples = np.array(random.sample(range(valid_window), valid_size))</span><br><span class="line">num_sampled = <span class="number">64</span> <span class="comment"># 负采样样本个数</span></span><br><span class="line"></span><br><span class="line">graph = tf.Graph()</span><br><span class="line"><span class="comment"># TF不区分CPU的设备号，设置为0即可；若设置GPU 对显存要求大</span></span><br><span class="line"><span class="keyword">with</span> graph.as_default(), tf.device(<span class="string">'/cpu:0'</span>):</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Input data.</span></span><br><span class="line">  train_dataset = tf.placeholder(tf.int32, shape=[batch_size])</span><br><span class="line">  train_labels = tf.placeholder(tf.int32, shape=[batch_size, <span class="number">1</span>])</span><br><span class="line">  valid_dataset = tf.constant(valid_examples, dtype=tf.int32)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Variables.</span></span><br><span class="line">  <span class="comment"># 均匀分布的【-1,1】的embeddings</span></span><br><span class="line">  embeddings = tf.Variable(</span><br><span class="line">    tf.random_uniform([vocabulary_size, embedding_size], <span class="number">-1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">  <span class="comment"># 权重参数采用两个标准差内的truncated_normal，叫做权重归一化，防止梯度消失</span></span><br><span class="line">  softmax_weights = tf.Variable(</span><br><span class="line">    tf.truncated_normal([vocabulary_size, embedding_size],</span><br><span class="line">                         stddev=<span class="number">1.0</span> / math.sqrt(embedding_size)))</span><br><span class="line">  <span class="comment"># 偏移量直接就是0</span></span><br><span class="line">  softmax_biases = tf.Variable(tf.zeros([vocabulary_size]))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Model.</span></span><br><span class="line">  <span class="comment"># Look up embeddings for inputs.就是把train_dataset中的数字变成embeddings 中128维向量</span></span><br><span class="line">  embed = tf.nn.embedding_lookup(embeddings, train_dataset)</span><br><span class="line">  <span class="comment"># Compute the softmax loss, using a sample of the negative labels each time.</span></span><br><span class="line">  <span class="comment"># 采用负采样计算softmax</span></span><br><span class="line">  loss = tf.reduce_mean(</span><br><span class="line">    tf.nn.sampled_softmax_loss(weights=softmax_weights, biases=softmax_biases, inputs=embed,</span><br><span class="line">                               labels=train_labels, num_sampled=num_sampled, num_classes=vocabulary_size))</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Optimizer.</span></span><br><span class="line">  <span class="comment"># Note: The optimizer will optimize the softmax_weights AND the embeddings.</span></span><br><span class="line">  <span class="comment"># 优化器将更新softmax_weights 以及 embeddings.因为embeddings被定义为变量，minimize()默认修改所有的变量</span></span><br><span class="line">  <span class="comment"># 这个就是风格画产生的原因之一</span></span><br><span class="line">  optimizer = tf.train.AdagradOptimizer(<span class="number">1.0</span>).minimize(loss)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 计算所有批次和valid_dataset 的余弦相似度</span></span><br><span class="line">  <span class="comment"># 余弦相似度</span></span><br><span class="line">  <span class="comment"># 求出每个embeddings每个向量的长度，就是求模</span></span><br><span class="line">  norm = tf.sqrt(tf.reduce_sum(tf.square(embeddings), <span class="number">1</span>, keepdims=<span class="keyword">True</span>))</span><br><span class="line">  <span class="comment"># embeddings 每个向量进行归一化，将每个向量各自做归一化，就是去掉了向量的长度，只关注向量的方向</span></span><br><span class="line">  normalized_embeddings = embeddings / norm</span><br><span class="line">  <span class="comment"># 所以比较向量的时候只用了方向信息，余弦相似度</span></span><br><span class="line">  valid_embeddings = tf.nn.embedding_lookup(</span><br><span class="line">    normalized_embeddings, valid_dataset)</span><br><span class="line">  similarity = tf.matmul(valid_embeddings, tf.transpose(normalized_embeddings))</span><br></pre></td></tr></table></figure>
+<pre><code>WARNING:tensorflow:From C:\Users\Administrator\AppData\Local\Programs\Python\Python36\lib\site-packages\tensorflow\python\ops\nn_impl.py:1344: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+
+See tf.nn.softmax_cross_entropy_with_logits_v2.
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">num_steps = <span class="number">100001</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> session:</span><br><span class="line">  tf.global_variables_initializer().run()</span><br><span class="line">  print(<span class="string">'Initialized'</span>)</span><br><span class="line">  average_loss = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> step <span class="keyword">in</span> range(num_steps):</span><br><span class="line">    batch_data, batch_labels = generate_batch(</span><br><span class="line">      batch_size, num_skips, skip_window)</span><br><span class="line">    feed_dict = &#123;train_dataset : batch_data, train_labels : batch_labels&#125;</span><br><span class="line">    _, l = session.run([optimizer, loss], feed_dict=feed_dict)</span><br><span class="line">    average_loss += l</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">2000</span> == <span class="number">0</span>:</span><br><span class="line">      <span class="keyword">if</span> step &gt; <span class="number">0</span>:</span><br><span class="line">        average_loss = average_loss / <span class="number">2000</span></span><br><span class="line">      <span class="comment"># 平均损失时对过去2000批次的损失的估计 </span></span><br><span class="line">      print(<span class="string">'Average loss at step %d: %f'</span> % (step, average_loss))</span><br><span class="line">      average_loss = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 这个计算代价很大 5万的矩阵归一化，后矩阵相乘；</span></span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">10000</span> == <span class="number">0</span>:</span><br><span class="line">      sim = similarity.eval()</span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> range(valid_size):</span><br><span class="line">        valid_word = reverse_dictionary[valid_examples[i]]</span><br><span class="line">        top_k = <span class="number">8</span> </span><br><span class="line">        <span class="comment"># 选取to_k 的近似值,这里argsort是</span></span><br><span class="line">        nearest = (-sim[i, :]).argsort()[<span class="number">1</span>:top_k+<span class="number">1</span>]</span><br><span class="line">        log = <span class="string">'Nearest to %s:'</span> % valid_word</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(top_k):</span><br><span class="line">          close_word = reverse_dictionary[nearest[k]]</span><br><span class="line">          log = <span class="string">'%s %s,'</span> % (log, close_word)</span><br><span class="line">        print(log)</span><br><span class="line">  final_embeddings = normalized_embeddings.eval()</span><br></pre></td></tr></table></figure>
+<pre><code>Initialized
+Average loss at step 0: 7.906703
+Nearest to is: bobble, venn, rodeo, ric, walks, shemini, graphite, instituting,
+Nearest to s: impart, understandably, waveguide, yakko, whittier, lingual, protestant, lautering,
+Nearest to who: haken, sol, javier, dressage, clay, almeida, fruiting, plans,
+Nearest to time: meninges, tley, attends, unimpressed, sep, acct, wrestlers, disabled,
+Nearest to four: repulsed, carrying, boeing, adjectival, zarathustra, locate, bittorrent, scilly,
+Nearest to or: starvation, headphones, statisticians, destitute, pragmatics, aten, hogs, chamada,
+Nearest to has: spenser, showings, cassiodorus, taste, afterwards, numeration, periods, judicial,
+Nearest to about: baker, lasting, great, spiny, hobbs, jiang, mistakenly, enemy,
+Nearest to such: insistent, awacs, accomplices, jokes, trivial, cigarettes, vista, enactments,
+Nearest to five: airspace, isomorphic, hahnemann, ddd, hallstatt, algonquian, substance, fantasia,
+Nearest to when: buffalo, formulas, homerun, karate, indic, andalus, subservient, klan,
+Nearest to there: sacks, yaoi, textrm, indigenous, inhibition, somerville, kournikova, repainted,
+Nearest to use: javan, islands, mengele, karim, carr, conses, syllogism, goodfellas,
+Nearest to i: regan, adagio, premiership, memos, payroll, mccormick, varicella, gow,
+Nearest to will: xiang, prosper, moldavian, stitch, geothermal, attracting, infection, livius,
+Nearest to no: commanded, massacre, gluck, philippine, hundred, chordata, dark, shor,
+Average loss at step 2000: 4.378162
+Average loss at step 4000: 3.866741
+Average loss at step 6000: 3.789374
+Average loss at step 8000: 3.693026
+Average loss at step 10000: 3.616336
+Nearest to is: was, are, has, mjf, seconded, malenkov, balm, be,
+Nearest to s: his, and, my, haram, ghiorso, aloe, consequently, kusanagi,
+Nearest to who: he, they, still, and, proviso, then, fruiting, underwent,
+Nearest to time: unimpressed, him, intravenous, wrestlers, key, way, miyamoto, kahan,
+Nearest to four: three, eight, seven, six, five, two, nine, zero,
+Nearest to or: and, propanol, dissipation, zombies, than, overtraining, archaeologists, hearted,
+Nearest to has: had, is, was, have, cassiodorus, afterwards, numeration, taste,
+Nearest to about: docklands, mistakenly, raymond, rapcore, alcaeus, friends, fuelling, spiny,
+Nearest to such: known, conifers, robot, ok, adventurers, well, creator, accomplices,
+Nearest to five: eight, seven, nine, six, four, three, two, zero,
+Nearest to when: donohue, parson, bewildering, andalus, describes, saimei, buffalo, honorably,
+Nearest to there: it, they, sacks, repainted, he, haley, spitz, spiked,
+Nearest to use: crew, appending, mengele, bands, generators, cowardice, dtv, karim,
+Nearest to i: minute, constitutes, swnt, singaporean, uttered, peachtree, filaments, slaughterhouse,
+Nearest to will: xiang, would, can, to, must, prosper, moldavian, cdma,
+Nearest to no: massacre, named, machina, it, dried, minimized, dark, gluck,
+Average loss at step 12000: 3.605883
+Average loss at step 14000: 3.577284
+Average loss at step 16000: 3.407318
+Average loss at step 18000: 3.461814
+Average loss at step 20000: 3.540494
+Nearest to is: was, are, has, mjf, be, rectangles, myrrh, were,
+Nearest to s: chew, gtpase, byron, ghiorso, bulfinch, expletive, aleksander, legnica,
+Nearest to who: he, then, which, they, also, often, still, married,
+Nearest to time: way, intravenous, unimpressed, wrestlers, key, bakunin, chernobyl, diatessaron,
+Nearest to four: three, five, six, two, seven, eight, nine, zero,
+Nearest to or: and, than, with, encouraging, mishna, dissipation, like, stingray,
+Nearest to has: had, is, have, was, multipart, afterwards, cassiodorus, pap,
+Nearest to about: mistakenly, docklands, fuelling, alcaeus, derived, heathen, next, indulging,
+Nearest to such: known, irrigation, conifers, well, robot, many, kanal, circulatory,
+Nearest to five: six, four, three, seven, zero, eight, two, nine,
+Nearest to when: since, before, donohue, but, parson, cryptographer, culver, reputations,
+Nearest to there: it, they, he, which, often, excluding, bunny, algebra,
+Nearest to use: crew, mengele, bands, appending, generators, dtv, deceive, cowardice,
+Nearest to i: ii, minute, constitutes, foregoing, filaments, mastered, we, fatal,
+Nearest to will: would, can, must, may, to, but, could, xiang,
+Nearest to no: massacre, dried, dark, it, a, gluck, topple, flagpole,
+Average loss at step 22000: 3.504591
+Average loss at step 24000: 3.490641
+Average loss at step 26000: 3.483303
+Average loss at step 28000: 3.475509
+Average loss at step 30000: 3.505294
+Nearest to is: was, has, are, be, were, mjf, myrrh, became,
+Nearest to s: his, haram, antonin, byron, of, bends, harmonically, bey,
+Nearest to who: he, they, which, also, still, then, often, she,
+Nearest to time: unsympathetic, way, belief, key, intravenous, diatessaron, maligned, chernobyl,
+Nearest to four: five, six, eight, seven, three, two, nine, zero,
+Nearest to or: and, but, than, bakelite, like, mishna, skier, as,
+Nearest to has: had, have, is, was, praises, osvaldo, afterwards, having,
+Nearest to about: alcaeus, mistakenly, docklands, domestic, financial, reformation, devotees, friends,
+Nearest to such: known, well, these, irrigation, conifers, many, other, robot,
+Nearest to five: four, eight, seven, six, three, nine, zero, two,
+Nearest to when: before, but, if, after, was, since, while, fz,
+Nearest to there: they, it, he, often, still, usually, bunny, we,
+Nearest to use: crew, mengele, bands, goods, demography, maitreya, purify, deceive,
+Nearest to i: ii, we, minute, iii, constitutes, doubleday, foregoing, prestige,
+Nearest to will: can, would, may, must, could, should, to, cannot,
+Nearest to no: dried, any, dark, a, it, only, machina, there,
+Average loss at step 32000: 3.502657
+Average loss at step 34000: 3.492980
+Average loss at step 36000: 3.460367
+Average loss at step 38000: 3.306287
+Average loss at step 40000: 3.429836
+Nearest to is: was, has, be, are, gaylord, myrrh, inr, cryptography,
+Nearest to s: his, bey, vinegar, her, while, haram, harmonically, disguise,
+Nearest to who: he, which, also, often, still, they, broadly, condensates,
+Nearest to time: way, year, unsympathetic, key, unimpressed, shays, poetical, maligned,
+Nearest to four: six, three, five, seven, eight, two, nine, one,
+Nearest to or: and, than, a, the, with, tony, querying, cca,
+Nearest to has: had, have, was, is, having, osvaldo, afterwards, inquisitorial,
+Nearest to about: alcaeus, domestic, mistakenly, docklands, koan, financial, on, before,
+Nearest to such: known, well, these, irrigation, many, willing, conifers, lahore,
+Nearest to five: seven, six, four, three, eight, nine, zero, two,
+Nearest to when: before, if, while, where, after, but, was, fz,
+Nearest to there: it, they, he, still, often, usually, these, which,
+Nearest to use: purify, mengele, goods, interfere, form, measure, bands, dtv,
+Nearest to i: ii, we, you, t, they, he, volumes, constitutes,
+Nearest to will: would, can, must, may, could, should, cannot, to,
+Nearest to no: any, dried, dark, it, profoundly, flip, than, theories,
+Average loss at step 42000: 3.443375
+Average loss at step 44000: 3.449424
+Average loss at step 46000: 3.455859
+Average loss at step 48000: 3.352189
+Average loss at step 50000: 3.383797
+Nearest to is: was, are, myrrh, has, be, mjf, gaylord, lucian,
+Nearest to s: his, bey, ztas, stranded, antonin, and, ghanaian, briand,
+Nearest to who: he, which, she, also, manchu, then, there, often,
+Nearest to time: way, year, unsympathetic, period, key, maligned, shays, unimpressed,
+Nearest to four: six, eight, three, five, seven, nine, two, zero,
+Nearest to or: and, than, marcius, while, extrasolar, murray, like, landlocked,
+Nearest to has: had, have, was, is, does, having, applicable, osvaldo,
+Nearest to about: koan, mistakenly, alcaeus, docklands, nous, leni, how, meters,
+Nearest to such: well, these, known, many, irrigation, conifers, perish, guericke,
+Nearest to five: six, four, seven, eight, three, zero, nine, two,
+Nearest to when: while, if, after, before, where, but, since, although,
+Nearest to there: they, it, he, often, still, usually, these, bunny,
+Nearest to use: mengele, measure, portions, goods, purify, form, maitreya, interfere,
+Nearest to i: ii, we, you, they, foregoing, iii, he, t,
+Nearest to will: would, can, must, could, may, should, cannot, might,
+Nearest to no: any, dried, a, she, flip, distinguishable, ellefson, sharps,
+Average loss at step 52000: 3.436850
+Average loss at step 54000: 3.430339
+Average loss at step 56000: 3.442089
+Average loss at step 58000: 3.393397
+Average loss at step 60000: 3.393661
+Nearest to is: was, has, are, although, myrrh, be, becomes, gaylord,
+Nearest to s: diff, decrypted, haram, px, ghiorso, bulfinch, bey, hne,
+Nearest to who: he, which, she, they, still, never, also, married,
+Nearest to time: way, unsympathetic, period, maligned, shays, place, year, comprehensively,
+Nearest to four: six, five, eight, three, seven, nine, zero, two,
+Nearest to or: and, than, but, including, like, ollie, manchukuo, olson,
+Nearest to has: had, have, is, was, having, plays, thinks, although,
+Nearest to about: koan, alcaeus, lasting, how, docklands, nous, what, domestic,
+Nearest to such: known, these, well, many, including, irrigation, lahore, venezia,
+Nearest to five: four, six, three, eight, seven, nine, zero, two,
+Nearest to when: if, before, after, while, where, although, because, though,
+Nearest to there: they, it, often, still, he, usually, she, now,
+Nearest to use: measure, mengele, portions, goods, infraclass, cause, most, norah,
+Nearest to i: we, ii, you, they, foregoing, t, doubleday, iii,
+Nearest to will: would, must, may, can, could, should, cannot, might,
+Nearest to no: any, sex, paintings, than, sharps, considerably, ellefson, arkham,
+Average loss at step 62000: 3.246356
+Average loss at step 64000: 3.253968
+Average loss at step 66000: 3.403710
+Average loss at step 68000: 3.393377
+Average loss at step 70000: 3.360259
+Nearest to is: was, has, are, be, mjf, although, myrrh, became,
+Nearest to s: haram, diff, decrypted, madman, bey, ztas, isbn, whose,
+Nearest to who: he, which, never, they, married, she, still, manchu,
+Nearest to time: unsympathetic, way, comprehensively, maligned, year, place, season, shays,
+Nearest to four: six, five, eight, seven, three, nine, two, zero,
+Nearest to or: and, than, like, any, while, but, dissection, the,
+Nearest to has: had, have, is, was, although, having, applicable, borrower,
+Nearest to about: koan, alcaeus, regarding, lasting, over, mistakenly, docklands, derry,
+Nearest to such: these, known, many, well, certain, lahore, including, venezia,
+Nearest to five: six, eight, four, seven, three, nine, zero, two,
+Nearest to when: if, before, while, after, where, however, though, although,
+Nearest to there: they, it, still, he, often, usually, we, now,
+Nearest to use: measure, mengele, form, appear, dominoes, think, lesund, deceive,
+Nearest to i: we, you, ii, g, doubleday, foregoing, god, t,
+Nearest to will: would, must, could, may, can, should, might, cannot,
+Nearest to no: any, little, than, considerably, paintings, there, flagpole, flip,
+Average loss at step 72000: 3.373728
+Average loss at step 74000: 3.351606
+Average loss at step 76000: 3.323821
+Average loss at step 78000: 3.353756
+Average loss at step 80000: 3.377470
+Nearest to is: was, has, are, becomes, although, be, became, includes,
+Nearest to s: haram, ztas, fealty, bey, dtp, justly, isbn, whose,
+Nearest to who: he, never, she, married, which, they, often, manchu,
+Nearest to time: unsympathetic, year, maligned, season, way, khanate, boas, period,
+Nearest to four: five, six, seven, eight, three, nine, two, zero,
+Nearest to or: and, while, per, than, dissection, van, restrain, pekka,
+Nearest to has: had, have, is, was, having, although, since, borrower,
+Nearest to about: alcaeus, koan, derry, indulging, lasting, regarding, over, docklands,
+Nearest to such: well, these, known, follows, certain, including, opposed, conifers,
+Nearest to five: six, four, seven, eight, three, nine, zero, two,
+Nearest to when: before, if, after, though, during, although, while, where,
+Nearest to there: it, they, he, usually, she, often, still, we,
+Nearest to use: measure, form, think, mengele, cause, dtv, treatment, analysing,
+Nearest to i: ii, you, we, iii, they, t, foregoing, doubleday,
+Nearest to will: would, could, can, must, may, should, might, cannot,
+Nearest to no: any, little, teng, flagpole, she, prespa, arkham, ellefson,
+Average loss at step 82000: 3.409646
+Average loss at step 84000: 3.412236
+Average loss at step 86000: 3.390080
+Average loss at step 88000: 3.352896
+Average loss at step 90000: 3.365889
+Nearest to is: was, has, are, be, although, gaylord, becomes, myrrh,
+Nearest to s: his, whose, isbn, haram, bey, briand, isaac, barclays,
+Nearest to who: he, often, she, never, also, which, married, then,
+Nearest to time: unsympathetic, season, year, period, maligned, way, length, sort,
+Nearest to four: five, seven, six, eight, three, nine, two, one,
+Nearest to or: and, email, affreightment, taney, wideawake, pensacola, while, dissection,
+Nearest to has: had, have, is, was, having, since, although, bu,
+Nearest to about: koan, alcaeus, regarding, over, derry, docklands, indulging, on,
+Nearest to such: known, well, these, certain, follows, described, separate, many,
+Nearest to five: eight, seven, four, three, six, nine, zero, two,
+Nearest to when: if, before, while, after, although, where, until, though,
+Nearest to there: they, it, he, still, she, usually, we, now,
+Nearest to use: treatment, list, cause, measure, most, analysing, notion, many,
+Nearest to i: we, you, ii, iii, doubleday, g, t, minute,
+Nearest to will: would, could, can, must, may, should, might, cannot,
+Nearest to no: any, little, only, than, another, distinguishable, considerably, she,
+Average loss at step 92000: 3.398345
+Average loss at step 94000: 3.252411
+Average loss at step 96000: 3.359638
+Average loss at step 98000: 3.247843
+Average loss at step 100000: 3.358810
+Nearest to is: was, has, becomes, became, be, although, gaylord, myrrh,
+Nearest to s: whose, his, haram, lebeau, wields, bey, isbn, isaac,
+Nearest to who: he, never, she, actually, often, and, which, still,
+Nearest to time: way, unsympathetic, step, khanate, year, maligned, season, sort,
+Nearest to four: six, seven, five, eight, three, two, nine, zero,
+Nearest to or: and, than, per, while, geq, merck, influencing, pekka,
+Nearest to has: had, have, is, was, since, having, borrower, kidney,
+Nearest to about: regarding, alcaeus, koan, indulging, derry, over, docklands, vigorous,
+Nearest to such: known, well, these, separate, certain, follows, many, including,
+Nearest to five: four, seven, six, eight, three, zero, nine, two,
+Nearest to when: if, while, before, although, where, after, though, until,
+Nearest to there: they, it, he, still, now, we, usually, sometimes,
+Nearest to use: treatment, measure, form, mengele, maximally, principles, rounding, cause,
+Nearest to i: you, we, ii, they, doubleday, iii, t, schaff,
+Nearest to will: would, must, can, could, should, may, might, cannot,
+Nearest to no: little, any, concerned, profoundly, steamships, considerably, xviii, she,
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抽取400点到TSNE 来可视化</span></span><br><span class="line">num_points = <span class="number">400</span></span><br><span class="line"></span><br><span class="line">tsne = TSNE(perplexity=<span class="number">30</span>, n_components=<span class="number">2</span>, init=<span class="string">'pca'</span>, n_iter=<span class="number">5000</span>, method=<span class="string">'exact'</span>)</span><br><span class="line">two_d_embeddings = tsne.fit_transform(final_embeddings[<span class="number">1</span>:num_points+<span class="number">1</span>, :])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 画出400个点的二维向量</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot</span><span class="params">(embeddings, labels)</span>:</span></span><br><span class="line">  <span class="keyword">assert</span> embeddings.shape[<span class="number">0</span>] &gt;= len(labels), <span class="string">'More labels than embeddings'</span></span><br><span class="line">  pylab.figure(figsize=(<span class="number">15</span>,<span class="number">15</span>))  <span class="comment"># in inches</span></span><br><span class="line">  <span class="keyword">for</span> i, label <span class="keyword">in</span> enumerate(labels):</span><br><span class="line">    x, y = embeddings[i,:]</span><br><span class="line">    pylab.scatter(x, y)</span><br><span class="line">    pylab.annotate(label, xy=(x, y), xytext=(<span class="number">5</span>, <span class="number">2</span>), textcoords=<span class="string">'offset points'</span>,</span><br><span class="line">                   ha=<span class="string">'right'</span>, va=<span class="string">'bottom'</span>)</span><br><span class="line">  pylab.show()</span><br><span class="line"></span><br><span class="line">words = [reverse_dictionary[i] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, num_points+<span class="number">1</span>)]</span><br><span class="line">plot(two_d_embeddings, words)</span><br></pre></td></tr></table></figure>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1536298492872output_9_0.png" alt="png"></p>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/08/26/329.找出所有可能的完整二叉树/" class="pre-post btn btn-default" title='所有可能的完整二叉树'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">所有可能的完整二叉树</span>
+        </a>
+    
+    
+        <a href="/2018/06/10/文本和序列的深度模型01/" class="next-post btn btn-default" title='文本和序列的深度模型01'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">文本和序列的深度模型01</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#要点"><span class="toc-text">要点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-目标：训练一个skip-gram模型"><span class="toc-text">1. 目标：训练一个skip-gram模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-什么是Skip-Gram模型-和-CBOW-模型"><span class="toc-text">2.什么是Skip-Gram模型 和 CBOW 模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-简单了解下Skip-Gram模型"><span class="toc-text">3.简单了解下Skip-Gram模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-简单了解下CBOW"><span class="toc-text">4.简单了解下CBOW</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-介绍下数据集"><span class="toc-text">5.介绍下数据集</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#collections-Counter"><span class="toc-text">collections.Counter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#most-common-n"><span class="toc-text">most_common([n])</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#extend"><span class="toc-text">extend()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dict"><span class="toc-text">dict()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tf-truncated-normal与tf-random-normal"><span class="toc-text">tf.truncated_normal与tf.random_normal</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tf-random-uniform"><span class="toc-text">tf.random_uniform</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tf-nn-embedding-lookup"><span class="toc-text">tf.nn.embedding_lookup</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tf-nn-sampled-softmax-loss"><span class="toc-text">tf.nn.sampled_softmax_loss</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#余弦相似度"><span class="toc-text">余弦相似度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#numpy-argsort"><span class="toc-text">numpy.argsort</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</body>
+</html>
