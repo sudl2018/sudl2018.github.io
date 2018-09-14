@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="sudoli&#39;s blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>序列模型RNN | sudoli&#39;s blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="sudoli&#39;s blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> best </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">sudoli&#39;s blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/算法/"><i class="fa "></i>算法</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="序列模型RNN">
+            
+	            序列模型RNN
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/RNN">
+            RNN
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/深度学习" title='深度学习'>
+                        深度学习
+                    </a>
+                
+                    <a href="/tags/序列" title='序列'>
+                        序列
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/06/20</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><h2 id="怎么样处理作为一个单词序列的文本？或是一段音频呢？"><a href="#怎么样处理作为一个单词序列的文本？或是一段音频呢？" class="headerlink" title="怎么样处理作为一个单词序列的文本？或是一段音频呢？"></a>怎么样处理作为一个单词序列的文本？或是一段音频呢？</h2><p>之前的神经网络都是只能处理固定长度的输入，如果输入不固定怎么办；</p>
+<p>拿CNN来看看，CNN是在不同的空间上共享参数；扩展一下，是否可以在时间维度上共享参数呢。这个就是递归神经网络的初心了，现在流行这个词。</p>
+<p>如果只是需要在每个时间点根据序列中的事件（状态）做出预测，那么你就可以在每个时间点用同样的分类器，比较简单；</p>
+<p>但是我们说的话是前面的词语对后面的词语都有影响，所以早期的思想是用递归地使用先前分类器的，记录下先前分类器的状态，所以你需要一个很深的神经网络，这样网络可能要几百，几千层；</p>
+<p>现在的我们采用的是一种较为简单的分类器，一部分连接到输入层，一部分连接到过去的事件</p>
+<h2 id="为什么RNN的反向传播不使用梯度下降？"><a href="#为什么RNN的反向传播不使用梯度下降？" class="headerlink" title="为什么RNN的反向传播不使用梯度下降？"></a>为什么RNN的反向传播不使用梯度下降？</h2><p>梯度下降要从输出层一直计算到输入层，这些导数都会作用到w参数上，但是这个模型都是共用参数w的，梯度下降偏好于无关联的参数更新，这样每层的学到东西才会保留下来；如果RNN反向传播使用梯度下降，那么要么梯度变到无穷大，要么变到无穷小…就没办法训练了</p>
+<h2 id="如何解决梯度爆炸？"><a href="#如何解决梯度爆炸？" class="headerlink" title="如何解决梯度爆炸？"></a>如何解决梯度爆炸？</h2><p>梯度裁剪，超过一定范围，就进行缩放</p>
+<h2 id="如何解决梯度消失？"><a href="#如何解决梯度消失？" class="headerlink" title="如何解决梯度消失？"></a>如何解决梯度消失？</h2><p>梯度消失就是模型只记住了近期的事件，序列稍长久不管用了，如何解决这个问题呢，LSTM(长短记忆模型登场了)</p>
+<h2 id="LSTM是啥？"><a href="#LSTM是啥？" class="headerlink" title="LSTM是啥？"></a>LSTM是啥？</h2><p>RNN的细胞单元有 两个输入 （过去的状态，当前的序列）；两个输出（当前的预测，当前的状态）</p>
+<p>LSTM的细胞需要做3件事情：</p>
+<ol>
+<li>w:将数据写到记忆中</li>
+<li>r:读取记忆中的数据</li>
+<li>d:忘记记忆中的数据</li>
+</ol>
+<h2 id="如何给LSTM的门下指令呢？"><a href="#如何给LSTM的门下指令呢？" class="headerlink" title="如何给LSTM的门下指令呢？"></a>如何给LSTM的门下指令呢？</h2><p>设置权重范围【0,1】，如果是0全部不做，如果是1 全部做，0.6 部分做；这样的话权重范围就是个连续的函数，就可以求导，并且进行反向传播</p>
+<p>实际上，每个指令都是由一个共享参数的逻辑回归分类器来控制的，并且还通过tanh来保障输出值在【-1,1】之间</p>
+<h2 id="如何对LSTM-进行正则化？"><a href="#如何对LSTM-进行正则化？" class="headerlink" title="如何对LSTM 进行正则化？"></a>如何对LSTM 进行正则化？</h2><p>可以进行L2 以及Droupout；</p>
+<p>使用Dropout时要记住只能用在序列输入，以及预测输出，不能用在过去和未来的状态传递上</p>
+<h2 id="Beam搜索是啥？"><a href="#Beam搜索是啥？" class="headerlink" title="Beam搜索是啥？"></a>Beam搜索是啥？</h2><p>当你预测句子中下一个出现的单词时，你可以遍历所有的词汇库来找出最大概率的词；</p>
+<p>更复杂一点是每次保存所有单词，在所有单词的基础上，继续预测，最后通过概率相乘来计算所有预测的概率，但是这个很奢侈；</p>
+<p>所以改进的方法就是只保留每个时间步最有可能的几个单词，这就是束搜索</p>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/08/26/329.找出所有可能的完整二叉树/" class="pre-post btn btn-default" title='所有可能的完整二叉树'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">所有可能的完整二叉树</span>
+        </a>
+    
+    
+        <a href="/2018/06/17/使用TensorFlow训练一个 CBOW模型并可视化输出/" class="next-post btn btn-default" title='使用TensorFlow训练一个 CBOW模型并可视化输出'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">使用TensorFlow训练一个 CBOW模型并可视化输出</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#要点"><span class="toc-text">要点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么样处理作为一个单词序列的文本？或是一段音频呢？"><span class="toc-text">怎么样处理作为一个单词序列的文本？或是一段音频呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么RNN的反向传播不使用梯度下降？"><span class="toc-text">为什么RNN的反向传播不使用梯度下降？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决梯度爆炸？"><span class="toc-text">如何解决梯度爆炸？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决梯度消失？"><span class="toc-text">如何解决梯度消失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSTM是啥？"><span class="toc-text">LSTM是啥？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何给LSTM的门下指令呢？"><span class="toc-text">如何给LSTM的门下指令呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何对LSTM-进行正则化？"><span class="toc-text">如何对LSTM 进行正则化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Beam搜索是啥？"><span class="toc-text">Beam搜索是啥？</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</body>
+</html>
