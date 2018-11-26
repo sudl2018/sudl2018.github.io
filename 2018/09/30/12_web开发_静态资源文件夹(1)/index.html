@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="sudoli&#39;s blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>12_web开发_静态资源文件夹 | sudoli&#39;s blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="sudoli&#39;s blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> best </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">sudoli&#39;s blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/SpringBoot/"><i class="fa "></i>SpringBoot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="12_web开发_静态资源文件夹">
+            
+	            12_web开发_静态资源文件夹
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/SpringBoot">
+            SpringBoot
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/SpringBoot" title='SpringBoot'>
+                        SpringBoot
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/09/30</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="web开发"><a href="#web开发" class="headerlink" title="web开发"></a>web开发</h2><h3 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h3><p>JSP ; Velocity ; Freemarker ; Thymeleaf</p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/1538963034434TB11x9ZPVXXXXccXFXXXXXXXXXX-705-584.png" alt="照片"></p>
+<h3 id="SpringBoot-推荐的是Thymeleaf"><a href="#SpringBoot-推荐的是Thymeleaf" class="headerlink" title="SpringBoot 推荐的是Thymeleaf"></a>SpringBoot 推荐的是Thymeleaf</h3><p>语法简单，功能强大</p>
+<h4 id="1-引入thymeleaf"><a href="#1-引入thymeleaf" class="headerlink" title="1.引入thymeleaf"></a>1.引入thymeleaf</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入spring-boot-starter-thymeleaf包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-Thymeleaf-使用和语法"><a href="#2-Thymeleaf-使用和语法" class="headerlink" title="2.Thymeleaf 使用和语法"></a>2.Thymeleaf 使用和语法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.thymeleaf"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThymeleafProperties</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 只要把html模板页面放在classpath:/templates/ 就可以自动渲染了</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_PREFIX = <span class="string">"classpath:/templates/"</span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_SUFFIX = <span class="string">".html"</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Whether to check that the template exists before rendering it.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">boolean</span> checkTemplate = <span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
+<p> // 只要把html模板页面放在classpath:/templates/ 就可以自动渲染了</p>
+<p>使用：先导入thymeleaf 的名空间</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--th:text 将后面的文本替换成我们的传递的值--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></span><br><span class="line">这是成功</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:text</span>=<span class="string">"$&#123;hello&#125;"</span>&gt;</span>你这个猪头<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-语法规则"><a href="#3-语法规则" class="headerlink" title="3.语法规则"></a>3.语法规则</h4><p>1）、th:text；改变当前元素里面的文本内容；<br>th：任意html属性；来替换原生属性的值</p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/15389672348521538964324311.png" alt="1538964324311"></p>
+<p>2）、表达式？ 知道什么时候用哪种表达式就好了（就5种）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">Simple expressions:（表达式语法）</span><br><span class="line">    Variable Expressions: $&#123;...&#125;：获取变量值；OGNL；</span><br><span class="line">     1）、获取对象的属性、调用方法        </span><br><span class="line">     2）、使用内置的基本对象：        </span><br><span class="line">         #ctx : the context object.            </span><br><span class="line">         #vars: the context variables.</span><br><span class="line">         #vars: the context variables.            </span><br><span class="line">         #locale : the context locale.</span><br><span class="line">         #request : (only in Web Contexts) the HttpServletRequest object.</span><br><span class="line">         #response : (only in Web Contexts) the HttpServletResponse object.</span><br><span class="line">         #session : (only in Web Contexts) the HttpSession object.</span><br><span class="line">         #servletContext : (only in Web Contexts) the ServletContext object.</span><br><span class="line">					$&#123;session.foo&#125;</span><br><span class="line">		3）、内置的一些工具对象：</span><br><span class="line">#execInfo : information about the template being processed.    #messages : methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #&#123;…&#125; syntax.</span><br><span class="line">#uris : methods for escaping parts of URLs/URIs</span><br><span class="line">#conversions : methods for executing the configured conversion service (if any).    #dates : methods for java.util.Date objects: formatting, component extraction, etc.</span><br><span class="line">#calendars : analogous to #dates , but for java.util.Calendar objects.</span><br><span class="line">#numbers : methods for formatting numeric objects.    #strings : methods for String objects: contains, startsWith, prepending/appending, etc.</span><br><span class="line">#objects : methods for objects in general.</span><br><span class="line">#bools : methods for boolean evaluation.</span><br><span class="line">#arrays : methods for arrays.</span><br><span class="line">#lists : methods for lists.</span><br><span class="line">#sets : methods for sets.</span><br><span class="line">#maps : methods for maps.</span><br><span class="line">#aggregates : methods for creating aggregates on arrays or collections.</span><br><span class="line">#ids : methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</span><br><span class="line">    Selection Variable Expressions: *&#123;...&#125;：选择表达式：和$&#123;&#125;在功能上是一样；</span><br><span class="line">     补充：配合 th:object=&quot;$&#123;session.user&#125;：</span><br><span class="line">     ==例子==================================================================</span><br><span class="line">         &lt;div th:object=&quot;$&#123;session.user&#125;&quot;&gt;</span><br><span class="line">          &lt;p&gt;Name: &lt;span th:text=&quot;*&#123;firstName&#125;&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;</span><br><span class="line">          &lt;p&gt;Surname: &lt;span th:text=&quot;*&#123;lastName&#125;&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;</span><br><span class="line">          &lt;p&gt;Nationality: &lt;span th:text=&quot;*&#123;nationality&#125;&quot;&gt;Saturn&lt;/span&gt;.&lt;/p&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">   ==========================================================================</span><br><span class="line">    Message Expressions: #&#123;...&#125;：获取国际化内容</span><br><span class="line">    Link URL Expressions: @&#123;...&#125;：定义URL；</span><br><span class="line">    ==例子================================================</span><br><span class="line">     @&#123;/order/process(execId=$&#123;execId&#125;,execType=&apos;FAST&apos;)&#125;  </span><br><span class="line">     ==================================================</span><br><span class="line">    Fragment Expressions: ~&#123;...&#125;：片段引用表达式</span><br><span class="line">     &lt;div th:insert=&quot;~&#123;commons :: main&#125;&quot;&gt;...&lt;/div&gt;        </span><br><span class="line">           </span><br><span class="line">Literals（字面量）</span><br><span class="line">      Text literals: &apos;one text&apos; , &apos;Another one!&apos; ,…</span><br><span class="line">      Number literals: 0 , 34 , 3.0 , 12.3 ,…</span><br><span class="line">      Boolean literals: true , false</span><br><span class="line">      Null literal: null</span><br><span class="line">      Literal tokens: one , sometext , main ,…</span><br><span class="line">Text operations:（文本操作）</span><br><span class="line">    String concatenation: +</span><br><span class="line">    Literal substitutions: |The name is $&#123;name&#125;|</span><br><span class="line">Arithmetic operations:（数学运算）</span><br><span class="line">    Binary operators: + , ‐ , * , / , %</span><br><span class="line">        Minus sign (unary operator): ‐</span><br><span class="line">Boolean operations:（布尔运算）</span><br><span class="line">    Binary operators: and , or</span><br><span class="line">    Boolean negation (unary operator): ! , not</span><br><span class="line">Comparisons and equality:（比较运算）</span><br><span class="line">    Comparators: &gt; , &lt; , &gt;= , &lt;= ( gt , lt , ge , le )</span><br><span class="line">    Equality operators: == , != ( eq , ne )</span><br><span class="line">Conditional operators:条件运算（三元运算符）</span><br><span class="line">    If‐then: (if)   (then)</span><br><span class="line">    If‐then‐else: (if)   (then) : (else)</span><br><span class="line">    Default: (value)  : (defaultvalue)</span><br><span class="line">Special tokens:</span><br><span class="line">    No‐Operation: _</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;!--th:text 将后面的文本替换成我们的传递的值--&gt;</span><br><span class="line">&lt;body &gt;</span><br><span class="line">这是标题成功</span><br><span class="line">&lt;div&gt;&lt;h3&gt;dasd&lt;/h3&gt;&lt;/div&gt;</span><br><span class="line">&lt;div th:id=&quot;$&#123;hello&#125;&quot; th:class=&quot;$&#123;hello&#125;&quot; &gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div th:text=&quot;$&#123;hello&#125;&quot;&gt;你这个猪头&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div th:utext=&quot;$&#123;hello&#125;&quot;&gt;你这个猪头&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--th:each 在哪个标签里，每次遍历都会生成同样的标签，3个div--&gt;</span><br><span class="line">&lt;div th:text=&quot;$&#123;fuck&#125;&quot; th:each=&quot;fuck:$&#123;fucks&#125;&quot;&gt;遍历内容</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;hr/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--一个div中 有三个span--&gt;</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;span  th:each=&quot;fuck:$&#123;fucks&#125;&quot; &gt;[[$&#123;fuck&#125;]]&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/10/08/13_Spring MVC 自动配置(1)/" class="pre-post btn btn-default" title='13_Spring MVC 自动配置'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">13_Spring MVC 自动配置</span>
+        </a>
+    
+    
+        <a href="/2018/09/30/11_web开发_静态资源文件夹(1)/" class="next-post btn btn-default" title='11_web开发_静态资源文件夹'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">11_web开发_静态资源文件夹</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#web开发"><span class="toc-text">web开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模板引擎"><span class="toc-text">模板引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBoot-推荐的是Thymeleaf"><span class="toc-text">SpringBoot 推荐的是Thymeleaf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-引入thymeleaf"><span class="toc-text">1.引入thymeleaf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Thymeleaf-使用和语法"><span class="toc-text">2.Thymeleaf 使用和语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-语法规则"><span class="toc-text">3.语法规则</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+</body>
+</html>
