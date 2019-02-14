@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="sudoli&#39;s blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>一、微服务背景知识 | sudoli&#39;s blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="sudoli&#39;s blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+
+
+    
+
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="main-header"  style="background-image:url(http://onq81n53u.bkt.clouddn.com/neweeess_%E5%89%AF%E6%9C%AC.png)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='sudoli'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> best </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">sudoli&#39;s blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/机器学习/"><i class="fa "></i>机器学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/深度学习/"><i class="fa "></i>深度学习</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/SpringBoot/"><i class="fa "></i>SpringBoots</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/springcloud/"><i class="fa "></i>springcloud</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="一、微服务背景知识">
+            
+	            一、微服务背景知识
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/springcloud">
+            springcloud
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+                    <a href="/tags/Java" title='Java'>
+                        Java
+                    </a>
+                
+                    <a href="/tags/springcloud" title='springcloud'>
+                        springcloud
+                    </a>
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/12/25</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="一、微服务背景知识"><a href="#一、微服务背景知识" class="headerlink" title="一、微服务背景知识"></a>一、微服务背景知识</h2><h3 id="五大神兽"><a href="#五大神兽" class="headerlink" title="五大神兽"></a>五大神兽</h3><p>Eureka(服务注册) 服务注册和发现，高可用服务注册中心</p>
+<p>Config(配置中心) 常规的server 和client 使用Bus 结合RabbitMQ 实现自动刷新</p>
+<p>Ribbon (服务通讯) RestTemplate Feign Ribbon通讯方式</p>
+<p>Zuul(动态路由)</p>
+<p>Hystrix 熔断机制</p>
+<p>容器编排：Docker + Rancher</p>
+<h3 id="常见的问题"><a href="#常见的问题" class="headerlink" title="常见的问题"></a>常见的问题</h3><ol>
+<li>什么是微服务</li>
+<li>微服务之间时如何建立通讯的</li>
+<li>springCloud 和Dubbo 有哪些区别<ol>
+<li>通讯方式不同： springcloud 是通常是基于HTTP的RESTful API; Dubbo 是采用RPC(远程过程调用)</li>
+</ol>
+</li>
+<li>SpringBoot 和SpringCloud,请谈谈你对他们的理解</li>
+<li>什么是服务熔断？什么是服务降级</li>
+<li>微服务的优缺点分别是什么？说说你在项目开发中遇到的坑</li>
+<li>你所知道的微服务技术栈有哪些？请举例一二</li>
+<li>Eureka 和 ZooKeeper 都可以做服务注册与发现，说说两者区别？</li>
+</ol>
+<h3 id="微服务概述"><a href="#微服务概述" class="headerlink" title="微服务概述"></a>微服务概述</h3><p>业界大牛马丁.福勒（Martin Fowler） 指出：==微服务架构是一种架构模式或者说是一种架构风格，它提倡将单一应用程序划分成一组小的服务，==每个服务运行在其独立的自己的==进程==中，服务之间互相协调、互相配合，为用户提供最终价值。服务之间采用轻量级的通信机制互相沟通（通常是基于HTTP的RESTful API）。每个服务都围绕着具体业务进行构建，并且能够被独立地部署到生产环境、类生产环境等。另外，应尽量避免统一的、集中式的服务管理机制，对具体的一个服务而言，应根据业务上下文，选择合适的语言、工具对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编写服务，也可以使用不同的数据存储。</p>
+<h4 id="技术角度理解"><a href="#技术角度理解" class="headerlink" title="技术角度理解"></a>技术角度理解</h4><p>微服务化的核心就是将传统的一站式应用，根据业务拆分成一个一个的服务，彻底<br>地去耦合,每一个微服务提供单个业务功能的服务，一个服务做一件事，<br>从技术角度看就是一种小而独立的处理过程，类似进程概念，能够自行单独启动<br>或销毁，拥有自己独立的数据库。</p>
+<h4 id="马丁的论文地址"><a href="#马丁的论文地址" class="headerlink" title="马丁的论文地址"></a><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">马丁的论文地址</a></h4><p><a href="https://insights.thoughtworks.cn/microservices-martin-fowler/" target="_blank" rel="noopener">中文版</a></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>All in one</th>
+<th>微服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特性一：“组件化”与“多服务”</td>
+<td>不拆分服务</td>
+<td>拆分公共服务</td>
+</tr>
+<tr>
+<td>特性二：围绕“业务功能”组织团队</td>
+<td></td>
+<td>拆分业务</td>
+</tr>
+<tr>
+<td>特性三：“做产品”而不是“做项目”</td>
+<td>有的团队只做前端 或者后端</td>
+<td>每个团队前中后都有</td>
+</tr>
+<tr>
+<td>特性四：“智能端点”与“傻瓜管道”</td>
+<td></td>
+<td>restful</td>
+</tr>
+<tr>
+<td>特性五：“去中心化”地治理技术</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>特性六：“去中心化”地管理数据</td>
+<td>只有1个中心数据库</td>
+<td>每个微服务各自有库</td>
+</tr>
+<tr>
+<td>特性七：“基础设施”自动化</td>
+<td>自动部署</td>
+<td>自动部署</td>
+</tr>
+<tr>
+<td>特性八：“容错”设计</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>特性九：“演进式”设计</td>
+<td>版本号常用</td>
+<td>版本号最后万不得已用</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h4><p>强调的是服务的大小，它关注的是某一个点，是具体解决某一个问题/提供落地对应服务的一个服务应用,<br>狭意的看,可以看作Eclipse里面的一个个微服务工程/或者Module</p>
+<h4 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h4><p>微服务架构是一种架构模式，它提倡将单独应用程序划分成一组小的服务，服务之间互相协调、互相配合，为用户提供最终价值。每个服务运行在其独特的进程中，服务与服务间采用轻量级的通信机制互相协作（通常是基于HTTP协议的RESTful API）。每个服务都围绕着具体业务进行构建，并且能够被独立的部署到生产环境、类生产环境等。另外，应当尽量避免统一的、集中式的服务管理机制，对具体的一个服务而言，应根据业务上下文，选择合适的语言、工具对其进行构建。</p>
+<h3 id="微服务的优缺点"><a href="#微服务的优缺点" class="headerlink" title="微服务的优缺点"></a>微服务的优缺点</h3><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>每个服务足够内聚，足够小，代码容易理解这样能聚焦一个指定的业务功能或业务需求</p>
+<p>开发简单、开发效率提高，一个服务可能就是专一的只干一件事。</p>
+<p>微服务能够被小团队单独开发，这个小团队是2到5人的开发人员组成。</p>
+<p>微服务是松耦合的，是有功能意义的服务，无论是在开发阶段或部署阶段都是独立的。</p>
+<p>微服务能使用不同的语言开发。</p>
+<p>易于和第三方集成，微服务允许容易且灵活的方式集成自动部署，通过持续集成工具，如Jenkins, Hudson, bamboo 。</p>
+<p>微服务易于被一个开发人员理解，修改和维护，这样小团队能够更关注自己的工作成果。无需通过合作才能体现价值。</p>
+<p>==微服务允许你利用融合最新技术。==</p>
+<p>==微服务只是业务逻辑的代码，不会和HTML,CSS 或其他界面组件混合。==</p>
+<p>==每个微服务都有自己的存储能力，可以有自己的数据库。也可以有统一数据库。==</p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p>开发人员要处理分布式系统的复杂性</p>
+<p>多服务运维难度，随着服务的增加，运维的压力也在增大</p>
+<p>系统部署依赖</p>
+<p>服务间通信成本</p>
+<p>数据一致性</p>
+<p>系统集成测试</p>
+<p>性能监控……</p>
+<p>微服务条目    落地技术    备注<br>服务开发    Springboot、Spring、SpringMVC</p>
+<h3 id="微服务的技术栈"><a href="#微服务的技术栈" class="headerlink" title="微服务的技术栈"></a>微服务的技术栈</h3><p>?    </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>微服务条目</th>
+<th>落地技术    备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务开发</td>
+<td>Springboot、Spring、SpringMVC</td>
+</tr>
+<tr>
+<td>服务配置与管理</td>
+<td>Netflix公司的Archaius、阿里的Diamond等</td>
+</tr>
+<tr>
+<td>服务注册与发现</td>
+<td>Eureka、Consul、Zookeeper等</td>
+</tr>
+<tr>
+<td>服务调用</td>
+<td>Rest、RPC、gRPC</td>
+</tr>
+<tr>
+<td>服务熔断器</td>
+<td>Hystrix、Envoy等</td>
+</tr>
+<tr>
+<td>负载均衡</td>
+<td>Ribbon、Nginx等</td>
+</tr>
+<tr>
+<td>服务接口调用(客户端调用服务的简化工具)</td>
+<td>Feign等</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>Kafka、RabbitMQ、ActiveMQ等</td>
+</tr>
+<tr>
+<td>服务配置中心管理</td>
+<td>SpringCloudConfig、Chef等</td>
+</tr>
+<tr>
+<td>服务路由（API网关）</td>
+<td>Zuul等</td>
+</tr>
+<tr>
+<td>服务监控</td>
+<td>Zabbix、Nagios、Metrics、Spectator等</td>
+</tr>
+<tr>
+<td>全链路追踪</td>
+<td>Zipkin，Brave、Dapper等</td>
+</tr>
+<tr>
+<td>服务部署</td>
+<td>Docker、OpenStack、Kubernetes等</td>
+</tr>
+<tr>
+<td>数据流操作开发包</td>
+<td>SpringCloud Stream（封装与Redis,Rabbit、Kafka等发送接收消息）</td>
+</tr>
+<tr>
+<td>事件消息总线</td>
+<td>Spring Cloud Bus</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="为什么选择SpringCloud作为微服务架构"><a href="#为什么选择SpringCloud作为微服务架构" class="headerlink" title="为什么选择SpringCloud作为微服务架构"></a>为什么选择SpringCloud作为微服务架构</h3><p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/15490029113601543373851633.png" alt="1543373851633"></p>
+<h4 id="当前各大IT公司用的微服务架构有哪些"><a href="#当前各大IT公司用的微服务架构有哪些" class="headerlink" title="当前各大IT公司用的微服务架构有哪些?"></a>当前各大IT公司用的微服务架构有哪些?</h4><p>阿里Dubbo/HSF （好舒服）</p>
+<p>京东JSF （京舒服）</p>
+<p>新浪微博Motan （茅台）</p>
+<p><del>当当网DubboX</del> </p>
+<p><img src="https://sudl-blog-oss.oss-cn-hangzhou.aliyuncs.com/15490029127741543374026014.png" alt="1543374026014"></p>
+
+    </div>
+
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">sudl</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/12/26/二、SpringCloud 是什么(1)/" class="pre-post btn btn-default" title='二、SpringCloud 是什么'>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">二、SpringCloud 是什么</span>
+        </a>
+    
+    
+        <a href="/2018/11/01/十六、SpringBoot与监控管理/" class="next-post btn btn-default" title='G_Spring Boot与监控管理'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">G_Spring Boot与监控管理</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMzA1MS85NjEz">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、微服务背景知识"><span class="toc-text">一、微服务背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#五大神兽"><span class="toc-text">五大神兽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的问题"><span class="toc-text">常见的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务概述"><span class="toc-text">微服务概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#技术角度理解"><span class="toc-text">技术角度理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#马丁的论文地址"><span class="toc-text">马丁的论文地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#微服务"><span class="toc-text">微服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#微服务架构"><span class="toc-text">微服务架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务的优缺点"><span class="toc-text">微服务的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务的技术栈"><span class="toc-text">微服务的技术栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么选择SpringCloud作为微服务架构"><span class="toc-text">为什么选择SpringCloud作为微服务架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#当前各大IT公司用的微服务架构有哪些"><span class="toc-text">当前各大IT公司用的微服务架构有哪些?</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/app.js?rev=@@hash"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</body>
+</html>
